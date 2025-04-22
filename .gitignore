@@ -36,3 +36,4 @@ ENV/
 
 # Vercel
 .vercel
+.qodo

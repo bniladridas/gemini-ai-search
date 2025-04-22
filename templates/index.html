@@ -357,11 +357,137 @@
                 font-size: 0.8rem;
             }
         }
+
+        /* Release button styles */
+        .release-container {
+            margin: 1rem 0;
+        }
+
+        .release-button {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: var(--subtle-bg);
+            border: 1px solid var(--subtle-border);
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.2s ease;
+            gap: 1rem;
+        }
+
+        .release-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px var(--subtle-shadow);
+            background: white;
+        }
+
+        .release-icon {
+            color: var(--google-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .release-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .release-tag {
+            font-weight: 600;
+            color: var(--google-blue);
+            font-size: 0.9rem;
+        }
+
+        .release-date {
+            color: var(--muted);
+            font-size: 0.8rem;
+            margin-top: 0.2rem;
+        }
+
+        .release-arrow {
+            color: var(--google-red);
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        /* Cookie notification styles */
+        .cookie-notification {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            font-size: 0.85rem;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+            transform: translateY(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .cookie-notification.show {
+            transform: translateY(0);
+        }
+
+        .cookie-text {
+            flex: 1;
+            padding-right: 1rem;
+            line-height: 1.4;
+        }
+
+        .cookie-text a {
+            color: var(--google-red);
+            border-bottom: 1px solid var(--google-red);
+        }
+
+        .cookie-text a:hover {
+            color: white;
+            border-bottom-color: white;
+        }
+
+        .cookie-button {
+            background-color: var(--google-red);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: background-color 0.2s ease;
+        }
+
+        .cookie-button:hover {
+            background-color: #d32f2f;
+        }
+
+        @media (max-width: 600px) {
+            .cookie-notification {
+                flex-direction: column;
+                padding: 0.8rem;
+            }
+
+            .cookie-text {
+                padding-right: 0;
+                padding-bottom: 0.8rem;
+                font-size: 0.8rem;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="logo-container">
         <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="ND Logo" class="logo">
+    </div>
+    <div class="nav-links" style="text-align: center; margin-bottom: 1.5rem;">
+        <a href="#privacy-legal" style="font-size: 0.8rem; margin: 0 0.5rem;">Privacy & Legal</a>
     </div>
     <h1>Gem Installation</h1>
 
@@ -398,6 +524,29 @@ License: Apache 2.0
 Location: /Users/niladridas/Desktop/te/.venv/lib/python3.13/site-packages
 Requires: google-ai-generativelanguage, google-api-core, google-auth, protobuf, tqdm
 Required-by:</code>
+
+    <h2>Latest Release</h2>
+    <p>Version 1.0.1 is now available</p>
+    <div class="release-container">
+        <a href="https://github.com/bniladridas/gemini-ai-search/releases/tag/v1.0.1"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="release-button">
+            <div class="release-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <div class="release-info">
+                <span class="release-tag">v1.0.1</span>
+                <span class="release-date">April 23, 2025</span>
+            </div>
+            <div class="release-arrow">→</div>
+        </a>
+    </div>
+    <p style="font-size: 0.8rem; margin-top: 0.5rem;">See the <a href="https://github.com/bniladridas/gemini-ai-search/blob/main/CHANGELOG.md" target="_blank" rel="noopener noreferrer">changelog</a> for details on this release.</p>
 
     <h2>Package Structure</h2>
     <p>Key components</p>
@@ -755,6 +904,75 @@ def generate_image(prompt):
     # Return the generated image
     return response</code>
 
+    <h1 id="privacy-legal">Privacy & Legal</h1>
+    <h2>Privacy Policy</h2>
+    <p>Last updated: April 23, 2025</p>
+    <code>This Privacy Policy describes how we collect, use, and handle your information when you use our services. By using this website, you agree to the collection and use of information in accordance with this policy.
+
+Information Collection and Use:
+- We collect information you provide directly to us, such as prompts entered into the search or image generation features.
+- We use this information to provide, maintain, and improve our services.
+- Your prompts may be temporarily stored to process your requests but are not permanently stored or used for training purposes.
+
+Data Storage and Caching:
+- Generated images and audio files are stored temporarily in a server-side temporary directory and are not permanently retained. This is implemented in our code:
+  * For audio: `TEMP_AUDIO_DIR = os.path.join(tempfile.gettempdir(), 'gemini_tts')`
+  * For images: `TEMP_IMAGE_DIR = os.path.join(tempfile.gettempdir(), 'gemini_images')`
+- Your browser may cache content, including generated images and audio files, to improve performance.
+- We use browser-based URL blob objects to display generated images and play audio files.
+- The application uses the Fetch API for network requests, which may implement caching: `fetch('/api/generate-image', {...})` and `fetch('/api/text-to-speech', {...})`
+- We do not sell or share your data with third parties except as necessary to provide our services.
+
+Third-Party Services and Technologies:
+- This website uses Google's Generative AI services. Your interactions may be subject to Google's privacy policies.
+- We use Flask, a Python web framework that may set session cookies for security purposes.
+- We use Flask-CORS (Cross-Origin Resource Sharing) to enable secure API requests from the browser, as shown in our code: `app = Flask(__name__); CORS(app)  # Enable CORS for all routes`
+- We use the gTTS (Google Text-to-Speech) service to convert text to speech: `tts = gTTS(text=text, lang='en', slow=False)`
+- We use the Google Generative AI API for text and image generation: `model = genai.GenerativeModel('gemini-2.5-flash-preview-04-17')`
+- For more information about Google's privacy practices, visit: https://ai.google.dev/privacy
+
+Cookies and Local Storage:
+- This website may use browser storage mechanisms and cookies for technical purposes.
+- The Flask framework we use may set session cookies for security purposes.
+- When you use our text-to-speech or image generation features, your browser may cache these files locally.
+- We use URL blob objects to display generated images and play audio files, which are temporarily stored in your browser's memory. This is evident in our code:
+  * For audio: `const audioUrl = URL.createObjectURL(blob); audioPlayer.src = audioUrl;`
+  * For images: `const imageUrl = URL.createObjectURL(blob); generatedImage.src = imageUrl;`
+- Our JavaScript code uses the Fetch API which may utilize browser caching mechanisms.
+- We do not use cookies for tracking or advertising purposes.
+
+Changes to This Privacy Policy:
+- We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.
+
+Contact Us:
+- If you have any questions about this Privacy Policy, please contact us.</code>
+
+    <h2>Terms of Service</h2>
+    <p>Effective date: April 23, 2025</p>
+    <code>By accessing or using this website, you agree to be bound by these Terms of Service. If you disagree with any part of the terms, you may not access the service.
+
+Use of Service:
+- This service is provided for informational and educational purposes only.
+- You may not use this service for any illegal or unauthorized purpose.
+- You agree not to modify, adapt, or hack the service or modify another website to falsely imply that it is associated with this service.
+
+Content and Conduct:
+- You are responsible for all content you submit through our service.
+- You agree not to use the service to generate or distribute content that is illegal, harmful, threatening, abusive, harassing, defamatory, or otherwise objectionable.
+- We reserve the right to remove any content that violates these terms or is otherwise objectionable.
+
+Intellectual Property:
+- The service and its original content, features, and functionality are owned by Niladri Das and are protected by international copyright, trademark, patent, trade secret, and other intellectual property laws.
+
+Limitation of Liability:
+- In no event shall we be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses.
+
+Governing Law:
+- These Terms shall be governed by the laws of the jurisdiction in which the service provider is established, without regard to its conflict of law provisions.
+
+Changes to Terms:
+- We reserve the right to modify or replace these Terms at any time. It is your responsibility to review these Terms periodically for changes.</code>
+
     <h2>Copyright Notice</h2>
     <p>Legal information</p>
     <code>© 2025 Niladri Das. All rights reserved. Using this template or any part of this design is strictly prohibited without direct permission from the author.</code>
@@ -961,6 +1179,38 @@ def generate_image(prompt):
                 event.preventDefault(); // Prevent default to avoid newline in textarea
                 generateImage();
             }
+        });
+    </script>
+
+    <!-- Cookie Notification Banner -->
+    <div class="cookie-notification" id="cookie-notification">
+        <div class="cookie-text">
+            This website uses cookies and local storage to enhance your experience. By continuing to use this site, you agree to our use of cookies and data storage as described in our <a href="#privacy-legal">Privacy Policy</a>.
+        </div>
+        <button class="cookie-button" id="accept-cookies">Accept</button>
+    </div>
+
+    <script>
+        // Cookie notification functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const cookieNotification = document.getElementById('cookie-notification');
+            const acceptCookiesButton = document.getElementById('accept-cookies');
+
+            // Check if user has already accepted cookies
+            const cookiesAccepted = localStorage.getItem('cookiesAccepted');
+
+            if (!cookiesAccepted) {
+                // Show the notification with a slight delay for better UX
+                setTimeout(function() {
+                    cookieNotification.classList.add('show');
+                }, 1000);
+            }
+
+            // Handle accept button click
+            acceptCookiesButton.addEventListener('click', function() {
+                localStorage.setItem('cookiesAccepted', 'true');
+                cookieNotification.classList.remove('show');
+            });
         });
     </script>
 </body>

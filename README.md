@@ -1,6 +1,28 @@
-# AI Search with Gemini API
+<div align="center">
+  <img src="static/img/logo.svg" alt="ND Logo" width="120">
+  <h1>AI Search with Gemini API</h1>
+  <p>
+    <a href="https://github.com/bniladridas/gemini-ai-search/releases/tag/v1.0.1">
+      <img src="https://img.shields.io/badge/version-1.0.1-blue" alt="Version 1.0.1">
+    </a>
+    <a href="LICENSE">
+      <img src="https://img.shields.io/badge/license-All%20Rights%20Reserved-red" alt="License: All Rights Reserved">
+    </a>
+    <a href="#privacy-legal">
+      <img src="https://img.shields.io/badge/privacy-policy-green" alt="Privacy Policy">
+    </a>
+    <a href="CHANGELOG.md">
+      <img src="https://img.shields.io/badge/changelog-1.0.1-orange" alt="Changelog">
+    </a>
+  </p>
+</div>
 
 This application provides a clean, minimal interface for searching and getting responses from Google's Gemini API, along with information about gem installation and algorithm problems.
+
+<div align="center">
+  <img src="static/img/png/og-image.png" alt="Application Screenshot" width="600">
+  <p><em>AI Search with Gemini API - Clean, minimal interface</em></p>
+</div>
 
 ## Setup Instructions
 
@@ -65,7 +87,12 @@ This application provides a clean, minimal interface for searching and getting r
 - AI image generation using Gemini 2.0 Flash
 - Markdown support for formatted responses
 - Mobile-friendly responsive design
+- Comprehensive Privacy Policy and Terms of Service
 - Standardized citation information via CITATION.cff for proper academic attribution
+
+## Changelog
+
+See the [CHANGELOG.md](CHANGELOG.md) file for a detailed history of changes to this project.
 
 ## How It Works
 
