@@ -162,6 +162,30 @@
             font-family: ui-monospace, monospace;
         }
 
+        .tts-button {
+            padding: 0.5rem 1rem;
+            font-family: inherit;
+            font-size: 0.8rem;
+            background: var(--google-red);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            opacity: 0.9;
+            display: none;
+            margin-top: 0.5rem;
+        }
+
+        .tts-button:hover {
+            opacity: 1;
+        }
+
+        .audio-player {
+            width: 100%;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
 
 
 
@@ -346,11 +370,13 @@ def maxSubArray(nums):
 
     <h1>AI Search</h1>
     <h2>Ask a Question</h2>
-    <p>Enter your prompt</p>
+    <p>Enter your prompt and optionally listen to the response</p>
     <div class="simple-search">
         <textarea class="prompt-input" placeholder="Enter your question or prompt here..." rows="3"></textarea>
         <button class="prompt-button">Submit</button>
         <div class="response-container" id="response"></div>
+        <button class="tts-button" id="tts-button">Listen (Text to Speech)</button>
+        <audio class="audio-player" id="audio-player" controls></audio>
     </div>
 
     <h2>Implementation</h2>
@@ -373,6 +399,33 @@ response = model.generate_content("Your prompt here")
 # Print the response
 print(response.text)</code>
 
+    <h2>Text-to-Speech Synthesis</h2>
+    <p>Convert AI responses to natural-sounding speech</p>
+    <code># Text-to-Speech implementation using Google's gTTS library
+# pip install gtts
+
+from gtts import gTTS
+import os
+import uuid
+import tempfile
+
+# Create a directory for temporary audio files
+TEMP_AUDIO_DIR = os.path.join(tempfile.gettempdir(), 'gemini_tts')
+os.makedirs(TEMP_AUDIO_DIR, exist_ok=True)
+
+# Convert text to speech
+def text_to_speech(text):
+    # Generate a unique filename
+    filename = f"{uuid.uuid4()}.mp3"
+    filepath = os.path.join(TEMP_AUDIO_DIR, filename)
+
+    # Convert text to speech using Google's TTS engine
+    tts = gTTS(text=text, lang='en', slow=False)
+    tts.save(filepath)
+
+    # Return the file path to be served to the client
+    return filepath</code>
+
     <h2>Copyright Notice</h2>
     <p>Legal information</p>
     <code>© 2025 Niladri Das. All rights reserved. Using this template or any part of this design is strictly prohibited without direct permission from the author.</code>
@@ -388,6 +441,14 @@ print(response.text)</code>
         function submitPrompt() {
             const promptInput = document.querySelector('.prompt-input').value;
             const responseContainer = document.getElementById('response');
+            const ttsButton = document.getElementById('tts-button');
+            const audioPlayer = document.getElementById('audio-player');
+
+            // Hide TTS button and audio player when submitting a new prompt
+            ttsButton.style.display = 'none';
+            audioPlayer.style.display = 'none';
+            audioPlayer.pause();
+            audioPlayer.src = '';
 
             if (!promptInput.trim()) {
                 responseContainer.innerHTML = '<em>Please enter a prompt</em>';
@@ -414,6 +475,13 @@ print(response.text)</code>
             .then(data => {
                 // Render the response as markdown
                 responseContainer.innerHTML = marked.parse(data.response);
+
+                // Show the TTS button if we have a response
+                if (data.response && data.response.trim()) {
+                    ttsButton.style.display = 'block';
+                    // Store the response text as a data attribute on the button
+                    ttsButton.setAttribute('data-text', data.response);
+                }
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -421,8 +489,62 @@ print(response.text)</code>
             });
         }
 
-        // Handle button click
+        // Function to handle text-to-speech
+        function textToSpeech() {
+            const ttsButton = document.getElementById('tts-button');
+            const audioPlayer = document.getElementById('audio-player');
+            const text = ttsButton.getAttribute('data-text');
+
+            if (!text) {
+                return;
+            }
+
+            // Disable the button while processing
+            ttsButton.disabled = true;
+            ttsButton.textContent = 'Processing...';
+
+            // Make an API call to the text-to-speech endpoint
+            fetch('/api/text-to-speech', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ text: text })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.blob();
+            })
+            .then(blob => {
+                // Create a URL for the audio blob
+                const audioUrl = URL.createObjectURL(blob);
+
+                // Set the audio source and display the player
+                audioPlayer.src = audioUrl;
+                audioPlayer.style.display = 'block';
+
+                // Play the audio
+                audioPlayer.play();
+
+                // Re-enable the button
+                ttsButton.disabled = false;
+                ttsButton.textContent = 'Listen (Text to Speech)';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert(`Error generating speech: ${error.message}`);
+
+                // Re-enable the button
+                ttsButton.disabled = false;
+                ttsButton.textContent = 'Listen (Text to Speech)';
+            });
+        }
+
+        // Handle button clicks
         document.querySelector('.prompt-button').addEventListener('click', submitPrompt);
+        document.getElementById('tts-button').addEventListener('click', textToSpeech);
 
         // Handle Enter key press in the input field
         document.querySelector('.prompt-input').addEventListener('keypress', function(event) {

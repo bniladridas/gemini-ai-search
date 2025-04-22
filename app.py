@@ -1,8 +1,11 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, send_file
 from flask_cors import CORS
 import os
+import uuid
+import tempfile
 from dotenv import load_dotenv
 import google.generativeai as genai
+from gtts import gTTS
 
 # Load environment variables
 load_dotenv()
@@ -44,6 +47,35 @@ def generate_response():
 
     except Exception as e:
         print("Exception in generate_response:", e)
+        return jsonify({'error': str(e)}), 500
+
+# Create a directory for temporary audio files
+TEMP_AUDIO_DIR = os.path.join(tempfile.gettempdir(), 'gemini_tts')
+os.makedirs(TEMP_AUDIO_DIR, exist_ok=True)
+
+@app.route('/api/text-to-speech', methods=['POST'])
+def text_to_speech():
+    try:
+        # Get the text from the request
+        data = request.json
+        text = data.get('text', '')
+
+        if not text:
+            return jsonify({'error': 'No text provided'}), 400
+
+        # Generate a unique filename
+        filename = f"{uuid.uuid4()}.mp3"
+        filepath = os.path.join(TEMP_AUDIO_DIR, filename)
+
+        # Convert text to speech
+        tts = gTTS(text=text, lang='en', slow=False)
+        tts.save(filepath)
+
+        # Return the audio file
+        return send_file(filepath, mimetype='audio/mp3', as_attachment=True, download_name=filename)
+
+    except Exception as e:
+        print("Exception in text_to_speech:", e)
         return jsonify({'error': str(e)}), 500
 
 # For local development

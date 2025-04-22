@@ -7,6 +7,7 @@ This application provides a clean, minimal interface for searching and getting r
 1. **Install dependencies**:
    ```
    pip install -r requirements.txt
+   pip install gTTS  # For text-to-speech functionality
    ```
 
 2. **Set up your API key**:
@@ -59,6 +60,7 @@ This application provides a clean, minimal interface for searching and getting r
 - Gem installation guide
 - Algorithm problems and solutions
 - AI search functionality using Google's Gemini 2.5 Flash Preview model
+- Text-to-speech synthesis for AI responses
 - Markdown support for formatted responses
 - Mobile-friendly responsive design
 - Standardized citation information via CITATION.cff for proper academic attribution
@@ -68,8 +70,12 @@ This application provides a clean, minimal interface for searching and getting r
 1. The frontend sends your prompt to the Flask backend
 2. The backend calls the Gemini API with your prompt
 3. The response is returned and rendered as markdown in the browser
+4. Optionally, you can click the "Listen" button to convert the response to speech
+5. The text is sent to the server, converted to an MP3 file using Google's Text-to-Speech (gTTS), and played back in the browser
 
 ## Python Code
+
+### Gemini API Integration
 
 The application uses the following Python code to interact with the Gemini API:
 
@@ -88,6 +94,33 @@ response = model.generate_content("Your prompt here")
 
 # Print the response
 print(response.text)
+```
+
+### Text-to-Speech Integration
+
+The application uses Google's Text-to-Speech (gTTS) library to convert AI responses to speech:
+
+```python
+from gtts import gTTS
+import os
+import uuid
+import tempfile
+
+# Create a directory for temporary audio files
+TEMP_AUDIO_DIR = os.path.join(tempfile.gettempdir(), 'gemini_tts')
+os.makedirs(TEMP_AUDIO_DIR, exist_ok=True)
+
+# Convert text to speech
+def text_to_speech(text):
+    # Generate a unique filename
+    filename = f"{uuid.uuid4()}.mp3"
+    filepath = os.path.join(TEMP_AUDIO_DIR, filename)
+
+    # Convert text to speech
+    tts = gTTS(text=text, lang='en', slow=False)
+    tts.save(filepath)
+
+    return filepath
 ```
 
 ## Citation
