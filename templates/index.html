@@ -9,7 +9,7 @@
     <!-- Open Graph / Social Media Meta Tags -->
     <meta property="og:title" content="Gem Installation & Google Generative AI">
     <meta property="og:description" content="A clean, minimal interface for Ruby gem installation and Google's Generative AI by Niladri Das">
-    <meta property="og:image" content="{{ request.url_root.rstrip('/') }}{{ url_for('static', filename='img/og-image.svg') }}">
+    <meta property="og:image" content="https://raw.githubusercontent.com/bniladridas/gemini-ai-search/main/static/img/og-image.svg">
     <meta property="og:url" content="{{ request.url_root }}">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
@@ -378,8 +378,8 @@ print(response.text)</code>
             gfm: true
         });
 
-        // Handle form submission
-        document.querySelector('.prompt-button').addEventListener('click', function() {
+        // Function to handle prompt submission
+        function submitPrompt() {
             const promptInput = document.querySelector('.prompt-input').value;
             const responseContainer = document.getElementById('response');
 
@@ -413,6 +413,17 @@ print(response.text)</code>
                 console.error('Error:', error);
                 responseContainer.innerHTML = `<em>Error: ${error.message}</em>`;
             });
+        }
+
+        // Handle button click
+        document.querySelector('.prompt-button').addEventListener('click', submitPrompt);
+
+        // Handle Enter key press in the input field
+        document.querySelector('.prompt-input').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault(); // Prevent default to avoid newline in textarea
+                submitPrompt();
+            }
         });
     </script>
 </body>
