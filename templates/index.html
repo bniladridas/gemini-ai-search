@@ -34,6 +34,9 @@
             --google-blue: #4285F4;
             --google-red: #EA4335;
             --google-text: #202124;
+            --subtle-bg: rgba(0,0,0,0.02);
+            --subtle-border: rgba(0,0,0,0.06);
+            --subtle-shadow: rgba(0,0,0,0.05);
         }
 
         * {
@@ -46,10 +49,10 @@
         }
 
         body {
-            font-family: -apple-system, system-ui, sans-serif;
+            font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             font-size: 15px;
-            line-height: 1.5;
-            max-width: 42rem;
+            line-height: 1.6;
+            max-width: 40rem;
             width: 100%;
             margin: var(--spacing) auto;
             padding: 0 var(--spacing);
@@ -57,35 +60,46 @@
             background: var(--background);
             text-rendering: optimizeLegibility;
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
             box-sizing: border-box;
+            letter-spacing: -0.01em;
         }
 
         h1 {
-            font-size: 1.1rem;
-            font-weight: 500;
-            letter-spacing: -0.01em;
+            font-size: 1.15rem;
+            font-weight: 600;
+            letter-spacing: -0.015em;
             margin-bottom: calc(var(--spacing) * 1.2);
+            color: var(--text);
         }
 
         h2 {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: 500;
             margin-top: calc(var(--spacing) * 0.8);
-            color: var(--muted);
+            color: var(--google-red);
+            letter-spacing: -0.01em;
+            margin-bottom: 0.3rem;
         }
 
         p {
             font-size: 0.85rem;
             color: var(--muted);
+            line-height: 1.5;
+            margin-bottom: 0.3rem;
         }
 
         code {
-            font-family: ui-monospace, monospace;
-            font-size: 0.85rem;
-            line-height: 1.4;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.82rem;
+            line-height: 1.5;
             display: block;
-            margin: 0.4rem 0 calc(var(--spacing) * 0.7);
+            margin: 0.4rem 0 calc(var(--spacing) * 0.9);
             color: var(--text);
+            background: var(--subtle-bg);
+            padding: 0.8rem 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
         }
 
         body > p:last-child {
@@ -96,9 +110,9 @@
         }
 
         h1 {
-            margin-top: calc(var(--spacing) * 1.5);
-            padding-top: calc(var(--spacing) * 0.8);
-            border-top: 1px solid rgba(0,0,0,0.07);
+            margin-top: calc(var(--spacing) * 2);
+            padding-top: calc(var(--spacing) * 1);
+            border-top: 1px solid var(--subtle-border);
         }
 
         h1:first-of-type {
@@ -107,88 +121,189 @@
             border-top: none;
         }
 
-        h2 {
-            color: var(--google-red);
-            margin-bottom: 0.2rem;
-        }
-
         .simple-search {
-            margin-top: 0.5rem;
-            margin-bottom: 1.5rem;
+            margin-top: 0.8rem;
+            margin-bottom: 2rem;
         }
 
         .prompt-input {
             width: 100%;
-            padding: 0.6rem;
+            padding: 0.8rem 1rem;
             font-family: inherit;
             font-size: 0.85rem;
-            border: 1px solid rgba(0,0,0,0.1);
-            border-radius: 4px;
-            background: rgba(0,0,0,0.02);
-            margin-bottom: 0.5rem;
+            border: 1px solid var(--subtle-border);
+            border-radius: 8px;
+            background: var(--subtle-bg);
+            margin-bottom: 0.8rem;
+            transition: all 0.2s ease;
+            resize: vertical;
         }
 
         .prompt-input:focus {
             outline: none;
-            border-color: var(--google-blue);
+            border-color: var(--google-red);
             background: white;
+            box-shadow: 0 2px 8px var(--subtle-shadow);
         }
 
         .prompt-button {
-            padding: 0.5rem 1rem;
+            padding: 0.6rem 1.2rem;
             font-family: inherit;
-            font-size: 0.8rem;
-            background: var(--google-blue);
+            font-size: 0.85rem;
+            font-weight: 500;
+            background: var(--google-red);
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
-            opacity: 0.9;
+            opacity: 0.95;
             display: block;
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
+            transition: all 0.2s ease;
         }
 
         .prompt-button:hover {
             opacity: 1;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px var(--subtle-shadow);
         }
 
         .response-container {
-            padding: 1rem;
-            background: rgba(0,0,0,0.02);
-            border-radius: 4px;
+            padding: 1.2rem;
+            background: var(--subtle-bg);
+            border-radius: 8px;
             font-size: 0.85rem;
-            line-height: 1.5;
+            line-height: 1.6;
             min-height: 3rem;
-            font-family: ui-monospace, monospace;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            border: 1px solid var(--subtle-border);
+            margin-bottom: 1rem;
         }
 
         .tts-button {
-            padding: 0.5rem 1rem;
+            padding: 0.6rem 1.2rem;
             font-family: inherit;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
+            font-weight: 500;
             background: var(--google-red);
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
-            opacity: 0.9;
+            opacity: 0.95;
             display: none;
-            margin-top: 0.5rem;
+            margin-top: 0.8rem;
+            transition: all 0.2s ease;
         }
 
         .tts-button:hover {
             opacity: 1;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px var(--subtle-shadow);
         }
 
         .audio-player {
             width: 100%;
-            margin-top: 0.5rem;
+            margin-top: 0.8rem;
             display: none;
+            border-radius: 8px;
+            overflow: hidden;
         }
 
+        /* Image generation styles */
+        .image-generation {
+            margin-top: 0.8rem;
+            margin-bottom: 2rem;
+        }
 
+        .image-prompt-input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            font-family: inherit;
+            font-size: 0.85rem;
+            border: 1px solid var(--subtle-border);
+            border-radius: 8px;
+            background: var(--subtle-bg);
+            margin-bottom: 0.8rem;
+            transition: all 0.2s ease;
+            resize: vertical;
+        }
 
+        .image-prompt-input:focus {
+            outline: none;
+            border-color: var(--google-red);
+            background: white;
+            box-shadow: 0 2px 8px var(--subtle-shadow);
+        }
 
+        .image-prompt-button {
+            padding: 0.6rem 1.2rem;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 500;
+            background: var(--google-red);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            opacity: 0.95;
+            display: block;
+            margin-bottom: 1.2rem;
+            transition: all 0.2s ease;
+        }
+
+        .image-prompt-button:hover {
+            opacity: 1;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px var(--subtle-shadow);
+        }
+
+        .image-container {
+            min-height: 3rem;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        #generated-image {
+            border-radius: 8px;
+            box-shadow: 0 2px 10px var(--subtle-shadow);
+        }
+
+        /* Profile avatar styles */
+        .profile-container {
+            display: flex;
+            justify-content: center;
+            margin: 1.2rem 0 1.5rem;
+        }
+
+        .profile-avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--google-red);
+            box-shadow: 0 4px 12px var(--subtle-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .profile-avatar:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 16px var(--subtle-shadow);
+        }
+
+        /* Style for links - changing from default blue to grey */
+        a {
+            color: var(--muted);
+            text-decoration: none;
+            border-bottom: 1px solid var(--subtle-border);
+            transition: all 0.2s ease;
+            padding-bottom: 1px;
+        }
+
+        a:hover {
+            color: var(--google-red);
+            border-bottom-color: var(--google-red);
+        }
 
         /* Mobile-specific styles */
         @media (max-width: 600px) {
@@ -198,32 +313,50 @@
 
             body {
                 font-size: 14px;
-                padding: 0 0.8rem;
+                padding: 0 1rem;
+                max-width: 100%;
             }
 
             code {
-                font-size: 0.7rem;
-                line-height: 1.3;
+                font-size: 0.75rem;
+                line-height: 1.4;
+                padding: 0.7rem;
+                border-radius: 6px;
             }
 
-            .prompt-input {
+            .prompt-input, .image-prompt-input {
                 font-size: 0.8rem;
+                padding: 0.7rem;
+            }
+
+            .prompt-button, .image-prompt-button, .tts-button {
+                font-size: 0.8rem;
+                padding: 0.5rem 1rem;
             }
 
             h1 {
-                font-size: 1rem;
+                font-size: 1.05rem;
+                margin-bottom: 1.5rem;
             }
 
             h2 {
-                font-size: 0.8rem;
+                font-size: 0.85rem;
             }
 
             p {
                 font-size: 0.8rem;
             }
+
+            .profile-avatar {
+                width: 90px;
+                height: 90px;
+            }
+
+            .response-container {
+                padding: 1rem;
+                font-size: 0.8rem;
+            }
         }
-
-
     </style>
 </head>
 <body>
@@ -254,7 +387,7 @@
     <h1>Google Generative AI</h1>
 
     <h2>Package Info</h2>
-    <p>Details</p>
+    <p>Details (<a href="https://ai.google.dev/" target="_blank" rel="noopener noreferrer">Google AI Studio</a>)</p>
     <code>Name: google-generativeai
 Version: 0.3.1
 Summary: Google Generative AI High level API client library and tools.
@@ -308,6 +441,33 @@ model = genai.GenerativeModel('gemini-1.5-flash')
 # Generate the response with a simpler interface
 response = model.generate_content(prompt)</code>
 
+    <h2>Error: Thinking is not enabled</h2>
+    <p>Problem: The image generation API was failing with "Thinking is not enabled for models/gemini-2.0-flash-exp-image-generation" error.</p>
+    <code># INCORRECT APPROACH (causing the error)
+# This code was trying to use thinking_config which is not supported by the image generation model
+
+generate_content_config = types.GenerateContentConfig(
+    thinking_config = types.ThinkingConfig(
+        thinking_budget=0,
+    ),
+    response_modalities=[
+        "image",
+        "text",
+    ],
+    response_mime_type="text/plain",
+)
+
+# CORRECT APPROACH (solution)
+# Remove the thinking_config parameter
+
+generate_content_config = types.GenerateContentConfig(
+    response_modalities=[
+        "image",
+        "text",
+    ],
+    response_mime_type="text/plain",
+)</code>
+
     <h2>Two Sum</h2>
     <p>Problem: Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.</p>
     <code># Time Complexity: O(n)
@@ -351,7 +511,115 @@ def maxSubArray(nums):
 
     return max_sum</code>
 
+    <h2>Merge Sort</h2>
+    <p>Problem: Implement the merge sort algorithm to sort an array of integers in ascending order.</p>
+    <code># Time Complexity: O(n log n)
+# Space Complexity: O(n)
+
+def merge_sort(arr):
+    # Base case: if array has 0 or 1 element, it's already sorted
+    if len(arr) <= 1:
+        return arr
+
+    # Divide the array into two halves
+    mid = len(arr) // 2
+    left = arr[:mid]
+    right = arr[mid:]
+
+    # Recursively sort both halves
+    left = merge_sort(left)
+    right = merge_sort(right)
+
+    # Merge the sorted halves
+    return merge(left, right)
+
+def merge(left, right):
+    result = []
+    i = j = 0
+
+    # Compare elements from both arrays and add the smaller one to result
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+
+    # Add any remaining elements
+    result.extend(left[i:])
+    result.extend(right[j:])
+
+    return result</code>
+
+    <h2>Binary Search</h2>
+    <p>Problem: Implement binary search to find a target value in a sorted array.</p>
+    <code># Time Complexity: O(log n)
+# Space Complexity: O(1)
+
+def binary_search(nums, target):
+    left, right = 0, len(nums) - 1
+
+    while left <= right:
+        # Calculate middle index
+        mid = left + (right - left) // 2
+
+        # Check if target is at the middle
+        if nums[mid] == target:
+            return mid
+
+        # If target is greater, ignore left half
+        elif nums[mid] < target:
+            left = mid + 1
+
+        # If target is smaller, ignore right half
+        else:
+            right = mid - 1
+
+    # Target not found
+    return -1</code>
+
+    <h2>Longest Palindromic Substring</h2>
+    <p>Problem: Given a string s, return the longest palindromic substring in s.</p>
+    <code># Time Complexity: O(n²)
+# Space Complexity: O(1)
+
+def longest_palindrome(s):
+    if not s:
+        return ""
+
+    start = 0  # Start index of the longest palindrome
+    max_len = 1  # Length of the longest palindrome
+
+    # Helper function to expand around center
+    def expand_around_center(left, right):
+        while left >= 0 and right < len(s) and s[left] == s[right]:
+            left -= 1
+            right += 1
+        return right - left - 1  # Length of palindrome
+
+    # Check each position as a potential center
+    for i in range(len(s)):
+        # Odd length palindrome (single character center)
+        len1 = expand_around_center(i, i)
+
+        # Even length palindrome (between two characters)
+        len2 = expand_around_center(i, i + 1)
+
+        # Get the maximum length from both cases
+        length = max(len1, len2)
+
+        # Update if we found a longer palindrome
+        if length > max_len:
+            max_len = length
+            start = i - (length - 1) // 2
+
+    return s[start:start + max_len]</code>
+
     <h1>Niladri Das</h1>
+    <div class="profile-container">
+        <img src="https://avatars.githubusercontent.com/u/125604915?v=4" alt="Niladri Das" class="profile-avatar">
+    </div>
     <h2>Software Engineer</h2>
     <p>Skills</p>
     <code>C++, Python, JavaScript, Flask, React, Machine Learning, API Integration</code>
@@ -366,11 +634,11 @@ def maxSubArray(nums):
 
     <h2>Contact</h2>
     <p>Professional</p>
-    <code>LinkedIn: https://www.linkedin.com/in/bniladridas/</code>
+    <code>LinkedIn: <a href="https://www.linkedin.com/in/bniladridas/" target="_blank" rel="noopener noreferrer">Niladri Das</a></code>
 
     <h1>AI Search</h1>
     <h2>Ask a Question</h2>
-    <p>Enter your prompt and optionally listen to the response</p>
+    <p>Enter your prompt and optionally listen to the response. Learn about <a href="https://ai.google.dev/gemini-api/docs/prompting-intro#examples" target="_blank" rel="noopener noreferrer">effective prompting techniques</a>.</p>
     <div class="simple-search">
         <textarea class="prompt-input" placeholder="Enter your question or prompt here..." rows="3"></textarea>
         <button class="prompt-button">Submit</button>
@@ -380,7 +648,7 @@ def maxSubArray(nums):
     </div>
 
     <h2>Implementation</h2>
-    <p>Python code</p>
+    <p>Python code for text generation</p>
     <code># To run this code you need to install the following dependencies:
 # pip install google-generativeai
 
@@ -425,6 +693,67 @@ def text_to_speech(text):
 
     # Return the file path to be served to the client
     return filepath</code>
+
+    <h1>AI Image Generation</h1>
+    <h2>Create Images with AI</h2>
+    <p>Enter a description to generate an image. Try detailed prompts for better results. Check out <a href="https://github.com/bniladridas/gemini-ai-search" target="_blank" rel="noopener noreferrer">our GitHub repository</a> for more examples from the Google AI team.</p>
+    <div class="image-generation">
+        <textarea class="image-prompt-input" placeholder="Describe the image you want to generate..." rows="3"></textarea>
+        <button class="image-prompt-button">Generate Image</button>
+        <div class="image-container">
+            <img id="generated-image" style="display: none; max-width: 100%; margin-top: 1rem;">
+            <div id="image-message" style="display: none;"></div>
+        </div>
+    </div>
+
+    <h2>Implementation</h2>
+    <p>Python code for image generation</p>
+    <code># Image Generation implementation using Google's Gemini API
+# pip install google-genai
+
+import os
+import uuid
+import tempfile
+import mimetypes
+from google import genai
+from google.genai import types
+
+# Create a directory for temporary image files
+TEMP_IMAGE_DIR = os.path.join(tempfile.gettempdir(), 'gemini_images')
+os.makedirs(TEMP_IMAGE_DIR, exist_ok=True)
+
+# Initialize the client
+client = genai.Client(
+    api_key=os.environ.get("GEMINI_API_KEY"),
+)
+
+# Generate an image from text
+def generate_image(prompt):
+    # Set up the model and content
+    model = "gemini-2.0-flash-exp-image-generation"
+    contents = [
+        types.Content(
+            role="user",
+            parts=[
+                types.Part.from_text(text=prompt),
+            ],
+        ),
+    ]
+
+    # Configure the generation parameters
+    config = types.GenerateContentConfig(
+        response_modalities=["image", "text"],
+    )
+
+    # Generate the image
+    response = client.models.generate_content(
+        model=model,
+        contents=contents,
+        config=config,
+    )
+
+    # Return the generated image
+    return response</code>
 
     <h2>Copyright Notice</h2>
     <p>Legal information</p>
@@ -542,15 +871,95 @@ def text_to_speech(text):
             });
         }
 
+        // Function to handle image generation
+        function generateImage() {
+            const promptInput = document.querySelector('.image-prompt-input').value;
+            const generatedImage = document.getElementById('generated-image');
+            const imageMessage = document.getElementById('image-message');
+            const imageButton = document.querySelector('.image-prompt-button');
+
+            // Hide previous image and message
+            generatedImage.style.display = 'none';
+            imageMessage.style.display = 'none';
+
+            if (!promptInput.trim()) {
+                imageMessage.textContent = 'Please enter a prompt';
+                imageMessage.style.display = 'block';
+                return;
+            }
+
+            // Disable the button and show loading state
+            imageButton.disabled = true;
+            imageButton.textContent = 'Generating...';
+            imageMessage.textContent = 'Generating your image. This may take a minute...';
+            imageMessage.style.display = 'block';
+
+            // Make an API call to the image generation endpoint
+            fetch('/api/generate-image', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ prompt: promptInput })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(data => {
+                        throw new Error(data.error || 'Failed to generate image');
+                    });
+                }
+
+                // Check if the response is JSON (error message) or blob (image)
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    return response.json().then(data => {
+                        throw new Error(data.message || data.error || 'Failed to generate image');
+                    });
+                }
+
+                return response.blob();
+            })
+            .then(blob => {
+                // Create a URL for the image blob
+                const imageUrl = URL.createObjectURL(blob);
+
+                // Set the image source and display it
+                generatedImage.src = imageUrl;
+                generatedImage.style.display = 'block';
+                imageMessage.style.display = 'none';
+
+                // Re-enable the button
+                imageButton.disabled = false;
+                imageButton.textContent = 'Generate Image';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                imageMessage.textContent = `Error: ${error.message}`;
+                imageMessage.style.display = 'block';
+
+                // Re-enable the button
+                imageButton.disabled = false;
+                imageButton.textContent = 'Generate Image';
+            });
+        }
+
         // Handle button clicks
         document.querySelector('.prompt-button').addEventListener('click', submitPrompt);
         document.getElementById('tts-button').addEventListener('click', textToSpeech);
+        document.querySelector('.image-prompt-button').addEventListener('click', generateImage);
 
-        // Handle Enter key press in the input field
+        // Handle Enter key press in the input fields
         document.querySelector('.prompt-input').addEventListener('keypress', function(event) {
             if (event.key === 'Enter' && !event.shiftKey) {
                 event.preventDefault(); // Prevent default to avoid newline in textarea
                 submitPrompt();
+            }
+        });
+
+        document.querySelector('.image-prompt-input').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault(); // Prevent default to avoid newline in textarea
+                generateImage();
             }
         });
     </script>

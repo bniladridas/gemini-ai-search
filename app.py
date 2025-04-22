@@ -3,9 +3,13 @@ from flask_cors import CORS
 import os
 import uuid
 import tempfile
+import base64
+import mimetypes
 from dotenv import load_dotenv
 import google.generativeai as genai
 from gtts import gTTS
+from google import genai as google_genai
+from google.genai import types
 
 # Load environment variables
 load_dotenv()
@@ -49,9 +53,12 @@ def generate_response():
         print("Exception in generate_response:", e)
         return jsonify({'error': str(e)}), 500
 
-# Create a directory for temporary audio files
+# Create directories for temporary files
 TEMP_AUDIO_DIR = os.path.join(tempfile.gettempdir(), 'gemini_tts')
 os.makedirs(TEMP_AUDIO_DIR, exist_ok=True)
+
+TEMP_IMAGE_DIR = os.path.join(tempfile.gettempdir(), 'gemini_images')
+os.makedirs(TEMP_IMAGE_DIR, exist_ok=True)
 
 @app.route('/api/text-to-speech', methods=['POST'])
 def text_to_speech():
@@ -76,6 +83,74 @@ def text_to_speech():
 
     except Exception as e:
         print("Exception in text_to_speech:", e)
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/generate-image', methods=['POST'])
+def generate_image():
+    try:
+        # Get the prompt from the request
+        data = request.json
+        prompt = data.get('prompt', '')
+
+        if not prompt:
+            return jsonify({'error': 'No prompt provided'}), 400
+
+        # Initialize the Google Genai client
+        client = google_genai.Client(
+            api_key=os.environ.get("GEMINI_API_KEY"),
+        )
+
+        # Set up the model and content
+        model = "gemini-2.0-flash-exp-image-generation"
+        contents = [
+            types.Content(
+                role="user",
+                parts=[
+                    types.Part.from_text(text=prompt),
+                ],
+            ),
+        ]
+
+        # Configure the generation parameters
+        generate_content_config = types.GenerateContentConfig(
+            response_modalities=[
+                "image",
+                "text",
+            ],
+            response_mime_type="text/plain",
+        )
+
+        # Generate the image
+        response = client.models.generate_content(
+            model=model,
+            contents=contents,
+            config=generate_content_config,
+        )
+
+        # Process the response
+        if response.candidates and response.candidates[0].content and response.candidates[0].content.parts:
+            for part in response.candidates[0].content.parts:
+                if part.inline_data:
+                    # Generate a unique filename
+                    file_extension = mimetypes.guess_extension(part.inline_data.mime_type)
+                    filename = f"{uuid.uuid4()}{file_extension}"
+                    filepath = os.path.join(TEMP_IMAGE_DIR, filename)
+
+                    # Save the image
+                    with open(filepath, "wb") as f:
+                        f.write(part.inline_data.data)
+
+                    # Return the image file
+                    return send_file(filepath, mimetype=part.inline_data.mime_type)
+                elif hasattr(part, 'text') and part.text:
+                    # If there's text but no image, return the text
+                    return jsonify({'message': part.text})
+
+        # If no valid response was found
+        return jsonify({'error': 'Failed to generate image'}), 500
+
+    except Exception as e:
+        print("Exception in generate_image:", e)
         return jsonify({'error': str(e)}), 500
 
 # For local development

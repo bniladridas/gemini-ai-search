@@ -8,6 +8,7 @@ This application provides a clean, minimal interface for searching and getting r
    ```
    pip install -r requirements.txt
    pip install gTTS  # For text-to-speech functionality
+   pip install google-genai  # For image generation functionality
    ```
 
 2. **Set up your API key**:
@@ -61,17 +62,34 @@ This application provides a clean, minimal interface for searching and getting r
 - Algorithm problems and solutions
 - AI search functionality using Google's Gemini 2.5 Flash Preview model
 - Text-to-speech synthesis for AI responses
+- AI image generation using Gemini 2.0 Flash
 - Markdown support for formatted responses
 - Mobile-friendly responsive design
 - Standardized citation information via CITATION.cff for proper academic attribution
 
 ## How It Works
 
+### Text Generation
 1. The frontend sends your prompt to the Flask backend
 2. The backend calls the Gemini API with your prompt
 3. The response is returned and rendered as markdown in the browser
 4. Optionally, you can click the "Listen" button to convert the response to speech
 5. The text is sent to the server, converted to an MP3 file using Google's Text-to-Speech (gTTS), and played back in the browser
+
+### Image Generation
+1. Enter a description of the image you want to create
+2. The frontend sends your prompt to the Flask backend
+3. The backend calls the Gemini API with your prompt using the image generation model
+4. The generated image is returned and displayed in the browser
+
+## Effective Prompting
+
+To get the best results from the Gemini API, it's important to craft effective prompts. Visit the [Google AI Studio documentation on prompting techniques](https://ai.google.dev/gemini-api/docs/prompting-intro#examples) to learn more about:
+
+- Structuring your prompts
+- Providing clear instructions
+- Using examples (few-shot prompting)
+- Optimizing for different types of tasks
 
 ## Python Code
 
@@ -121,6 +139,57 @@ def text_to_speech(text):
     tts.save(filepath)
 
     return filepath
+```
+
+### Image Generation Integration
+
+The application uses Google's Gemini API to generate images from text descriptions:
+
+```python
+import os
+import uuid
+import tempfile
+import mimetypes
+from google import genai
+from google.genai import types
+
+# Create a directory for temporary image files
+TEMP_IMAGE_DIR = os.path.join(tempfile.gettempdir(), 'gemini_images')
+os.makedirs(TEMP_IMAGE_DIR, exist_ok=True)
+
+# Initialize the client
+client = genai.Client(
+    api_key=os.environ.get("GEMINI_API_KEY"),
+)
+
+# Generate an image from text
+def generate_image(prompt):
+    # Set up the model and content
+    model = "gemini-2.0-flash-exp-image-generation"
+    contents = [
+        types.Content(
+            role="user",
+            parts=[
+                types.Part.from_text(text=prompt),
+            ],
+        ),
+    ]
+
+    # Configure the generation parameters
+    config = types.GenerateContentConfig(
+        response_modalities=["image", "text"],
+        # Note: Do not use thinking_config with this model
+    )
+
+    # Generate the image
+    response = client.models.generate_content(
+        model=model,
+        contents=contents,
+        config=config,
+    )
+
+    # Return the generated image
+    return response
 ```
 
 ## Citation
