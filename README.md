@@ -61,6 +61,7 @@ This application provides a clean, minimal interface for searching and getting r
 - AI search functionality using Google's Gemini 2.5 Flash Preview model
 - Markdown support for formatted responses
 - Mobile-friendly responsive design
+- Standardized citation information via CITATION.cff for proper academic attribution
 
 ## How It Works
 
@@ -88,6 +89,32 @@ response = model.generate_content("Your prompt here")
 # Print the response
 print(response.text)
 ```
+
+## Citation
+
+This project includes a `CITATION.cff` file that provides standardized citation information. If you use this software in your research or projects, please cite it using the information provided in this file.
+
+You can cite this project in the following formats:
+
+### APA Format
+```
+Das, N. (2025). AI Search with Gemini API (Version 1.0.0) [Computer software]. https://github.com/bniladridas/gemini-ai-search
+```
+
+### BibTeX Format
+```bibtex
+@software{Das_AI_Search_with_2025,
+  author = {Das, Niladri},
+  license = {All Rights Reserved},
+  month = {4},
+  title = {{AI Search with Gemini API}},
+  url = {https://github.com/bniladridas/gemini-ai-search},
+  version = {1.0.0},
+  year = {2025}
+}
+```
+
+For more information about the CITATION.cff format, visit [citation-file-format.github.io](https://citation-file-format.github.io/).
 
 ## Copyright
 
