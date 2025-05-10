@@ -17,7 +17,7 @@
   </p>
 </div>
 
-This application provides a clean, minimal interface for searching and getting responses from Google's Gemini API, along with information about gem installation and algorithm problems.
+This application provides a clean, minimal interface for searching and getting responses from Google's Gemini API, with a theme focused on Media Relations and Product Communications.
 
 <div align="center">
   <img src="static/img/png/og-image.png" alt="Application Screenshot" width="600">
