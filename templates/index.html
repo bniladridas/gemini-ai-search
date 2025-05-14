@@ -526,9 +526,9 @@ Requires: google-ai-generativelanguage, google-api-core, google-auth, protobuf, 
 Required-by:</code>
 
     <h2>Latest Release</h2>
-    <p>Version 1.0.1 is now available</p>
+    <p>Version 1.0.2 is now available</p>
     <div class="release-container">
-        <a href="https://github.com/bniladridas/gemini-ai-search/releases/tag/v1.0.1"
+        <a href="https://github.com/bniladridas/gemini-ai-search/releases/tag/v1.0.2"
            target="_blank"
            rel="noopener noreferrer"
            class="release-button">
@@ -540,8 +540,8 @@ Required-by:</code>
                 </svg>
             </div>
             <div class="release-info">
-                <span class="release-tag">v1.0.1</span>
-                <span class="release-date">April 23, 2025</span>
+                <span class="release-tag">v1.0.2</span>
+                <span class="release-date">May 14, 2025</span>
             </div>
             <div class="release-arrow">→</div>
         </a>
@@ -562,6 +562,42 @@ google_auth-2.39.0.dist-info
 googleapis_common_protos-1.70.0.dist-info</code>
 
     <h1>Algorithm Problems</h1>
+
+    <h2>Business & Economic Impact</h2>
+    <p>How algorithmic solutions drive business value</p>
+    <code># BUSINESS VALUE OF ALGORITHMIC SOLUTIONS
+# 1. Operational Efficiency
+#    - Reduced computational costs through optimized algorithms
+#    - Faster processing enables real-time decision making
+#    - Improved resource allocation and utilization
+
+# 2. Customer Experience
+#    - Faster response times improve user satisfaction
+#    - More accurate results build trust and reliability
+#    - Personalized experiences through pattern recognition
+
+# 3. Cost Reduction
+#    - Fewer API calls through optimized requests
+#    - Lower infrastructure requirements
+#    - Reduced support and maintenance costs
+
+# 4. Competitive Advantage
+#    - Faster time-to-market for new features
+#    - More reliable service with fewer outages
+#    - Better scalability to handle growth
+
+# 5. Innovation Enablement
+#    - Complex features become possible through efficient algorithms
+#    - AI capabilities can be fully leveraged
+#    - New business models emerge from technical capabilities
+
+# CASE STUDY: Image Generation Fix
+# By solving the "No current event loop in thread" error:
+# - Restored a key product feature that was completely non-functional
+# - Eliminated wasted API costs on failed requests
+# - Improved user trust by delivering on promised capabilities
+# - Reduced support burden from user complaints
+# - Enabled scaling to handle multiple concurrent requests</code>
 
     <h2>Error: Network response was not ok</h2>
     <p>Problem: The Gemini API integration was failing with "Network response was not ok" error due to incorrect API usage.</p>
@@ -616,6 +652,66 @@ generate_content_config = types.GenerateContentConfig(
     ],
     response_mime_type="text/plain",
 )</code>
+
+    <h2>Error: No current event loop in thread</h2>
+    <p>Problem: The image generation feature was failing with "There is no current event loop in thread" error and returning text instead of images, causing business impact through poor user experience and wasted API resources.</p>
+    <code># BUSINESS IMPACT
+# 1. User frustration and potential service abandonment
+# 2. Wasted API calls and associated costs
+# 3. Increased support burden for troubleshooting
+# 4. Reduced trust in AI capabilities
+
+# INCORRECT APPROACH (causing the error)
+# This code was trying to use asyncio functionality in a threaded environment without proper setup
+
+@app.route('/api/generate-image', methods=['POST'])
+def generate_image():
+    try:
+        # Initialize the Google Genai client
+        client = google_genai.Client(
+            api_key=os.environ.get("GEMINI_API_KEY"),
+        )
+
+        # Generate the image - THIS FAILS with "No current event loop in thread"
+        response = client.models.generate_content(
+            model=model,
+            contents=contents,
+            config=generate_content_config,
+        )
+
+        # Process response...
+    except Exception as e:
+        print("Exception in generate_image:", e)
+        return jsonify({'error': str(e)}), 500
+
+# CORRECT APPROACH (solution)
+# Properly handle asyncio event loop in threaded environment
+
+@app.route('/api/generate-image', methods=['POST'])
+def generate_image():
+    try:
+        # Import asyncio for event loop handling
+        import asyncio
+
+        # Function to run in the event loop
+        async def generate_image_async():
+            # Initialize client and generate image...
+            return response
+
+        # Create a new event loop and run the async function
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        response = loop.run_until_complete(generate_image_async())
+        loop.close()
+
+        # Also improved prompt formatting:
+        # From: text=prompt
+        # To: text=f"Generate an image of: {prompt}"
+
+        # Process response...
+    except Exception as e:
+        print("Exception in generate_image:", e)
+        return jsonify({'error': str(e)}), 500</code>
 
     <h2>Two Sum</h2>
     <p>Problem: Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.</p>

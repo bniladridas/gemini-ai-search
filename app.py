@@ -95,42 +95,57 @@ def generate_image():
         if not prompt:
             return jsonify({'error': 'No prompt provided'}), 400
 
-        # Initialize the Google Genai client
-        client = google_genai.Client(
-            api_key=os.environ.get("GEMINI_API_KEY"),
-        )
+        # Import asyncio for event loop handling
+        import asyncio
 
-        # Set up the model and content
-        model = "gemini-2.0-flash-exp-image-generation"
-        contents = [
-            types.Content(
-                role="user",
-                parts=[
-                    types.Part.from_text(text=prompt),
+        # Function to run in the event loop
+        async def generate_image_async():
+            # Initialize the Google Genai client
+            client = google_genai.Client(
+                api_key=os.environ.get("GEMINI_API_KEY"),
+            )
+
+            # Set up the model and content
+            model = "gemini-2.0-flash-exp-image-generation"
+            contents = [
+                types.Content(
+                    role="user",
+                    parts=[
+                        types.Part.from_text(text=f"Generate an image of: {prompt}"),
+                    ],
+                ),
+            ]
+
+            # Configure the generation parameters
+            generate_content_config = types.GenerateContentConfig(
+                response_modalities=[
+                    "image",
+                    "text",
                 ],
-            ),
-        ]
+                response_mime_type="text/plain",
+            )
 
-        # Configure the generation parameters
-        generate_content_config = types.GenerateContentConfig(
-            response_modalities=[
-                "image",
-                "text",
-            ],
-            response_mime_type="text/plain",
-        )
+            # Generate the image
+            response = client.models.generate_content(
+                model=model,
+                contents=contents,
+                config=generate_content_config,
+            )
 
-        # Generate the image
-        response = client.models.generate_content(
-            model=model,
-            contents=contents,
-            config=generate_content_config,
-        )
+            return response
+
+        # Create a new event loop and run the async function
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        response = loop.run_until_complete(generate_image_async())
+        loop.close()
 
         # Process the response
         if response.candidates and response.candidates[0].content and response.candidates[0].content.parts:
+            has_image = False
             for part in response.candidates[0].content.parts:
                 if part.inline_data:
+                    has_image = True
                     # Generate a unique filename
                     file_extension = mimetypes.guess_extension(part.inline_data.mime_type)
                     filename = f"{uuid.uuid4()}{file_extension}"
@@ -142,12 +157,17 @@ def generate_image():
 
                     # Return the image file
                     return send_file(filepath, mimetype=part.inline_data.mime_type)
-                elif hasattr(part, 'text') and part.text:
-                    # If there's text but no image, return the text
-                    return jsonify({'message': part.text})
+
+            # If we processed all parts and didn't find an image
+            if not has_image:
+                # Check if there's text in the response
+                for part in response.candidates[0].content.parts:
+                    if hasattr(part, 'text') and part.text:
+                        # If there's text but no image, return an error with the text
+                        return jsonify({'error': f"The model returned text instead of an image: {part.text}"}), 400
 
         # If no valid response was found
-        return jsonify({'error': 'Failed to generate image'}), 500
+        return jsonify({'error': 'Failed to generate image. The model did not return any image data.'}), 500
 
     except Exception as e:
         print("Exception in generate_image:", e)

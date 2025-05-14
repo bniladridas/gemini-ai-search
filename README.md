@@ -2,8 +2,8 @@
   <img src="static/img/logo.svg" alt="ND Logo" width="120">
   <h1>AI Search with Gemini API</h1>
   <p>
-    <a href="https://github.com/bniladridas/gemini-ai-search/releases/tag/v1.0.1">
-      <img src="https://img.shields.io/badge/version-1.0.1-blue" alt="Version 1.0.1">
+    <a href="https://github.com/bniladridas/gemini-ai-search/releases/tag/v1.0.2">
+      <img src="https://img.shields.io/badge/version-1.0.2-blue" alt="Version 1.0.2">
     </a>
     <a href="LICENSE">
       <img src="https://img.shields.io/badge/license-All%20Rights%20Reserved-red" alt="License: All Rights Reserved">
@@ -12,7 +12,7 @@
       <img src="https://img.shields.io/badge/privacy-policy-green" alt="Privacy Policy">
     </a>
     <a href="CHANGELOG.md">
-      <img src="https://img.shields.io/badge/changelog-1.0.1-orange" alt="Changelog">
+      <img src="https://img.shields.io/badge/changelog-1.0.2-orange" alt="Changelog">
     </a>
   </p>
 </div>
