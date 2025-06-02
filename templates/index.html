@@ -1,0 +1,1743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="A comprehensive guide for Ruby gem installation and Google Generative AI integration. Learn about package structure, dependencies, and how to implement AI search functionality with clean code examples.">
+    <meta name="copyright" content="© 2025 Niladri Das. All rights reserved.">
+    <meta name="author" content="Niladri Das">
+    <meta name="publish_date" content="2025-04-22">
+    <meta name="date" content="2025-04-22">
+
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="Gem Installation & Google Generative AI">
+    <meta property="og:description" content="A clean, minimal interface for Ruby gem installation and Google's Generative AI. Explore algorithm solutions, API integration examples, and learn how to implement AI search functionality with the latest Gemini models.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/bniladridas/gemini-ai-search/main/static/img/png/og-image.png">
+    <meta property="og:url" content="{{ request.url_root }}">
+    <meta property="og:type" content="website">
+    <meta property="og:author" content="Niladri Das">
+    <meta property="article:published_time" content="2025-04-22">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@bniladridas">
+
+    <title>Gem Installation & Google Generative AI</title>
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.svg') }}" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/marked/marked.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root {
+            --text: #f5f5f7;
+            --text-secondary: #d1d1d6;
+            --text-tertiary: #8e8e93;
+            --background: #1c1c1e;
+            --background-secondary: #2c2c2e;
+            --background-elevated: #3a3a3c;
+            --spacing: clamp(1.5rem, 5vw, 2.5rem);
+            --accent-blue: #007aff;
+            --accent-blue-hover: #0056cc;
+            --accent-purple: #af52de;
+            --accent-purple-hover: #9542be;
+            --accent-green: #30d158;
+            --accent-green-hover: #28a745;
+            --accent-orange: #ff9500;
+            --accent-orange-hover: #e6850e;
+            --accent-red: #ff453a;
+            --accent-red-hover: #e63946;
+            --border-light: rgba(255, 255, 255, 0.1);
+            --border-medium: rgba(255, 255, 255, 0.2);
+            --shadow-light: rgba(0, 0, 0, 0.3);
+            --shadow-medium: rgba(0, 0, 0, 0.5);
+            --shadow-inset: inset 2px 2px 5px rgba(0, 0, 0, 0.3), inset -2px -2px 5px rgba(255, 255, 255, 0.05);
+            --shadow-raised: 8px 8px 16px rgba(0, 0, 0, 0.4), -8px -8px 16px rgba(255, 255, 255, 0.05);
+            --border-radius: 20px;
+            --border-radius-small: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            line-height: 1.6;
+            max-width: 36rem;
+            margin: 0 auto;
+            padding: 1.5rem;
+            color: var(--text);
+            background: var(--background);
+            font-weight: 400;
+            min-height: 100vh;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0 0 1rem 0;
+            color: #f5f5f7;
+            line-height: 1.3;
+        }
+
+        h2 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 1rem 0 0.5rem 0;
+            color: #e5e5e7;
+            line-height: 1.4;
+        }
+
+        h3 {
+            font-size: 15px;
+            font-weight: 600;
+            margin: 0.5rem 0 0.25rem 0;
+            color: #e5e5e7;
+            line-height: 1.4;
+        }
+
+        h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin: 0.5rem 0 0.25rem 0;
+            color: #d1d1d6;
+            line-height: 1.4;
+        }
+
+        p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 0 0 0.5rem 0;
+            font-weight: 400;
+        }
+
+        code {
+            font-family: ui-monospace, monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            display: block;
+            margin: 1rem 0;
+            color: #ffffff;
+            background: var(--background-elevated);
+            padding: 1.5rem;
+            border-radius: var(--border-radius-small);
+            border: none;
+            overflow-x: auto;
+            box-shadow: var(--shadow-inset);
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        h1:not(:first-of-type) {
+            margin-top: 1.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .simple-search {
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: var(--background-secondary);
+            border-radius: var(--border-radius);
+            border: none;
+            box-shadow: var(--shadow-inset);
+        }
+
+        .prompt-input {
+            width: 100%;
+            padding: 1rem;
+            font-family: inherit;
+            font-size: 15px;
+            border: none;
+            border-radius: var(--border-radius-small);
+            background: var(--background-elevated);
+            margin-bottom: 1rem;
+            transition: box-shadow 0.2s ease;
+            resize: vertical;
+            min-height: 3rem;
+            color: var(--text);
+            box-shadow: var(--shadow-inset);
+        }
+
+        .prompt-input:focus {
+            outline: none;
+            box-shadow: var(--shadow-inset), 0 0 0 2px var(--accent-blue);
+        }
+
+        .prompt-input::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .prompt-button, .thinking-button {
+            padding: 1rem 1.5rem;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 600;
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-small);
+            cursor: pointer;
+            flex: 1;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-raised);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .prompt-button {
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-red));
+        }
+
+        .thinking-button {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+        }
+
+        .prompt-button:hover, .thinking-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6), -4px -4px 12px rgba(255, 255, 255, 0.1);
+        }
+
+        .prompt-button:active, .thinking-button:active {
+            transform: translateY(0);
+            box-shadow: var(--shadow-inset);
+        }
+
+        .response-container, .thinking-container {
+            padding: 1.5rem;
+            background: var(--background-secondary);
+            border-radius: var(--border-radius);
+            font-size: 15px;
+            line-height: 1.6;
+            font-family: inherit;
+            border: none;
+            margin-bottom: 1.5rem;
+            display: none;
+            box-shadow: var(--shadow-inset);
+        }
+
+        .thinking-container {
+            background: var(--background-elevated);
+            border-left: 4px solid var(--accent-purple);
+            box-shadow: var(--shadow-inset), inset 4px 0 0 var(--accent-purple);
+        }
+
+        .thinking-container h4 {
+            color: #bf5af2;
+            margin: 0 0 0.5rem 0;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .tts-button {
+            padding: 0.25rem 0.5rem;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 500;
+            background: var(--accent-green);
+            color: white;
+            border: none;
+            border-radius: 2px;
+            cursor: pointer;
+            display: none;
+            margin-top: 0.25rem;
+            transition: opacity 0.1s;
+        }
+
+        .tts-button:hover {
+            opacity: 0.9;
+        }
+
+        .audio-player {
+            width: 100%;
+            margin-top: 0.5rem;
+            display: none;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        /* Image generation styles */
+        .image-generation {
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: var(--background-secondary);
+            border-radius: var(--border-radius);
+            border: none;
+            box-shadow: var(--shadow-inset);
+        }
+
+        .image-prompt-input {
+            width: 100%;
+            padding: 1rem;
+            font-family: inherit;
+            font-size: 15px;
+            border: none;
+            border-radius: var(--border-radius-small);
+            background: var(--background-elevated);
+            margin-bottom: 1rem;
+            transition: box-shadow 0.2s ease;
+            resize: vertical;
+            min-height: 3rem;
+            color: var(--text);
+            box-shadow: var(--shadow-inset);
+        }
+
+        .image-prompt-input:focus {
+            outline: none;
+            box-shadow: var(--shadow-inset), 0 0 0 2px var(--accent-purple);
+        }
+
+        .image-prompt-input::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        .image-prompt-button {
+            padding: 1rem 1.5rem;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--accent-purple), #9d4edd);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-small);
+            cursor: pointer;
+            display: block;
+            margin-bottom: 1rem;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-raised);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-prompt-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6), -4px -4px 12px rgba(255, 255, 255, 0.1);
+        }
+
+        .image-prompt-button:active {
+            transform: translateY(0);
+            box-shadow: var(--shadow-inset);
+        }
+
+        .image-prompt-button:disabled {
+            opacity: 0.7;
+            transform: none;
+            cursor: not-allowed;
+        }
+
+        .image-container {
+            min-height: 3rem;
+            border-radius: var(--border-radius-small);
+            overflow: hidden;
+            background: var(--background-elevated);
+            padding: 1rem;
+            box-shadow: var(--shadow-inset);
+        }
+
+        #generated-image {
+            border-radius: var(--border-radius-small);
+            box-shadow: var(--shadow-raised);
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        #image-message {
+            color: var(--text-secondary);
+            font-size: 14px;
+            text-align: center;
+            padding: 1rem;
+            background: var(--background-secondary);
+            border-radius: var(--border-radius-small);
+            margin-top: 0.5rem;
+            box-shadow: var(--shadow-inset);
+        }
+
+        /* Profile avatar styles */
+        .profile-container {
+            display: flex;
+            justify-content: center;
+            margin: 1.2rem 0 1.5rem;
+        }
+
+        .profile-avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-red);
+            box-shadow: 0 4px 12px var(--shadow-light);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .profile-avatar:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 16px var(--shadow-medium);
+        }
+
+        /* Style for links - clean style */
+        a {
+            color: #64d2ff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: linear-gradient(90deg, #64d2ff, var(--accent-purple));
+            transition: width 0.3s ease;
+        }
+
+        a:hover {
+            color: #32c5ff;
+        }
+
+        a:hover::after {
+            width: 100%;
+        }
+
+        /* Collapsible Section Styles */
+        .collapsible-section {
+            margin: 1.5rem 0;
+            background: var(--background-secondary);
+            border-radius: var(--border-radius);
+            border: none;
+            overflow: hidden;
+            box-shadow: var(--shadow-raised);
+        }
+
+        .section-header {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
+            background: var(--background-elevated);
+        }
+
+        .section-header:hover {
+            background: var(--background-elevated);
+            box-shadow: var(--shadow-inset);
+        }
+
+        .section-title {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .section-icon {
+            font-size: 0.875rem;
+            color: #64d2ff;
+            transition: transform 0.2s ease;
+        }
+
+        .section-header.active .section-icon {
+            transform: rotate(180deg);
+        }
+
+        .section-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.15s ease;
+        }
+
+        .section-content.active {
+            max-height: 2000px;
+        }
+
+        .section-inner {
+            padding: 0 0.75rem 0.75rem 0.75rem;
+        }
+
+
+
+        /* Mobile styles */
+        @media (max-width: 600px) {
+            body {
+                padding: 0.5rem;
+            }
+
+            h1 {
+                font-size: 1.25rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+        }
+
+        /* Release button styles */
+        .release-container {
+            margin: 0.75rem 0;
+        }
+
+        .release-button {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            background: var(--background-elevated);
+            border: 1px solid var(--border-light);
+            border-radius: 3px;
+            text-decoration: none;
+            color: var(--text);
+            transition: background-color 0.1s ease;
+            gap: 0.75rem;
+        }
+
+        .release-button:hover {
+            background: var(--background-secondary);
+        }
+
+        .release-icon {
+            color: var(--accent-blue);
+        }
+
+        .release-info {
+            flex: 1;
+        }
+
+        .release-tag {
+            font-weight: 500;
+            color: var(--accent-blue);
+            font-size: 14px;
+        }
+
+        .release-date {
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-top: 0.25rem;
+        }
+
+        .release-arrow {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        /* Cookie notification styles */
+        .cookie-notification {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 1.5rem;
+            right: 1.5rem;
+            max-width: 500px;
+            margin: 0 auto;
+            background: var(--background-secondary);
+            color: var(--text);
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            box-shadow: var(--shadow-raised);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-light);
+            transform: translateY(150%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .cookie-notification.show {
+            transform: translateY(0);
+        }
+
+        .cookie-text {
+            flex: 1;
+            padding-right: 1.5rem;
+            line-height: 1.5;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .cookie-text a {
+            color: #64d2ff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .cookie-text a:hover {
+            color: #32c5ff;
+        }
+
+        .cookie-button {
+            background: linear-gradient(135deg, var(--accent-green), #28a745);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius-small);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-raised);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cookie-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4), -4px -4px 8px rgba(255, 255, 255, 0.1);
+        }
+
+        .cookie-button:active {
+            transform: translateY(0);
+            box-shadow: var(--shadow-inset);
+        }
+
+        @media (max-width: 600px) {
+            .cookie-notification {
+                flex-direction: column;
+                padding: 1.25rem;
+                left: 1rem;
+                right: 1rem;
+                bottom: 1rem;
+            }
+
+            .cookie-text {
+                padding-right: 0;
+                padding-bottom: 1rem;
+                font-size: 13px;
+                text-align: center;
+            }
+
+            .cookie-button {
+                width: 100%;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="ND Logo" class="logo">
+    </div>
+    <div class="nav-links" style="text-align: center; margin-bottom: 1.5rem;">
+        <a href="#privacy-legal" style="font-size: 0.8rem; margin: 0 0.5rem;">Privacy & Legal</a>
+    </div>
+    <h1>Gem Installation</h1>
+    <p>Ruby gem for AI-powered assistant integration. <a href="https://bniladridas.github.io/friday_gemini_ai/" target="_blank" rel="noopener noreferrer">Discover the Friday Gemini AI project</a> for complete documentation and examples.</p>
+
+    <h2>Start</h2>
+    <p>Initial command</p>
+    <code>sudo gem install friday_gemini_ai</code>
+
+    <h2>Challenge</h2>
+    <p>Version mismatch</p>
+    <code>ruby -v</code>
+
+    <h2>Solution</h2>
+    <p>Version update</p>
+    <code>rbenv global 3.2.2</code>
+
+    <h2>Result</h2>
+    <p>Success</p>
+    <code>Successfully installed httparty-0.21.0
+4 gems installed</code>
+
+    <p>Always verify Ruby version before installing gems.</p>
+
+    <h1>Google Generative AI</h1>
+
+    <h2>Package Info</h2>
+    <p>Details (<a href="https://ai.google.dev/" target="_blank" rel="noopener noreferrer">Google AI Studio</a>)</p>
+    <code>Name: google-generativeai
+Version: 0.3.1
+Summary: Google Generative AI High level API client library and tools.
+Home-page: https://github.com/google/generative-ai-python
+Author: Google LLC
+Author-email: googleapis-packages@google.com
+License: Apache 2.0
+Location: /Users/niladridas/Desktop/te/.venv/lib/python3.13/site-packages
+Requires: google-ai-generativelanguage, google-api-core, google-auth, protobuf, tqdm
+Required-by: (No packages currently depend on this - it's a top-level dependency)</code>
+
+    <h2>Latest Release</h2>
+    <div class="release-container">
+        <a href="https://github.com/bniladridas/gemini-ai-search/releases/tag/v1.0.3"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="release-button">
+            <div class="release-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <div class="release-info">
+                <span class="release-tag">v1.0.3</span>
+                <span class="release-date">June 2, 2025</span>
+            </div>
+            <div class="release-arrow">→</div>
+        </a>
+    </div>
+    <p style="font-size: 0.8rem; margin-top: 0.5rem;">See the <a href="https://github.com/bniladridas/gemini-ai-search/blob/main/CHANGELOG.md" target="_blank" rel="noopener noreferrer">changelog</a> for details on this release.</p>
+
+    <div class="collapsible-section">
+        <div class="section-header" onclick="toggleSection('release-features')">
+            <h3 class="section-title">What's New in v1.0.3</h3>
+            <span class="section-icon">▼</span>
+        </div>
+        <div class="section-content" id="release-features">
+            <div class="section-inner">
+                <h4 style="color: #64d2ff; margin-bottom: 1rem; font-weight: 600;">Clean Design</h4>
+                <ul style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 1.5rem;">
+                    <li>Professional light background interface</li>
+                    <li>Inter typography for clean readability</li>
+                    <li>Noise-free design with minimal spacing</li>
+                    <li>Consistent 2px border radius throughout</li>
+                </ul>
+
+                <h4 style="color: #bf5af2; margin-bottom: 1rem; font-weight: 600;">AI Features</h4>
+                <ul style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 1.5rem;">
+                    <li>Google Gemini API integration</li>
+                    <li>AI thinking mode with transparent reasoning</li>
+                    <li>Text generation and image creation</li>
+                    <li>Text-to-speech functionality</li>
+                </ul>
+
+                <h4 style="color: #32d74b; margin-bottom: 1rem; font-weight: 600;">Interface</h4>
+                <ul style="color: var(--text-secondary); line-height: 1.6;">
+                    <li>Collapsible sections for better organization</li>
+                    <li>Responsive design for all devices</li>
+                    <li>Algorithm examples and code snippets</li>
+                    <li>Clean, professional presentation</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <h2>Package Structure</h2>
+    <p>Key components</p>
+    <code>google/generativeai - Main package directory
+google_generativeai-0.3.1-py3.11-nspkg.pth
+google_generativeai-0.3.1.dist-info/ - Package metadata</code>
+
+    <h2>Dependencies</h2>
+    <p>Installed packages</p>
+    <code>google_ai_generativelanguage-0.4.0.dist-info
+google_api_core-2.24.2.dist-info
+google_auth-2.39.0.dist-info
+googleapis_common_protos-1.70.0.dist-info</code>
+
+    <h1>Algorithm Problems</h1>
+
+    <div class="collapsible-section">
+        <div class="section-header" onclick="toggleSection('business-impact')">
+            <h3 class="section-title">Business & Economic Impact</h3>
+            <span class="section-icon">▼</span>
+        </div>
+        <div class="section-content" id="business-impact">
+            <div class="section-inner">
+                <p>How algorithmic solutions drive business value</p>
+                <code># BUSINESS VALUE OF ALGORITHMIC SOLUTIONS
+# 1. Operational Efficiency
+#    - Reduced computational costs through optimized algorithms
+#    - Faster processing enables real-time decision making
+#    - Improved resource allocation and utilization
+
+# 2. Customer Experience
+#    - Faster response times improve user satisfaction
+#    - More accurate results build trust and reliability
+#    - Personalized experiences through pattern recognition
+
+# 3. Cost Reduction
+#    - Fewer API calls through optimized requests
+#    - Lower infrastructure requirements
+#    - Reduced support and maintenance costs
+
+# 4. Competitive Advantage
+#    - Faster time-to-market for new features
+#    - More reliable service with fewer outages
+#    - Better scalability to handle growth
+
+# 5. Innovation Enablement
+#    - Complex features become possible through efficient algorithms
+#    - AI capabilities can be fully leveraged
+#    - New business models emerge from technical capabilities
+
+# CASE STUDY: Image Generation Fix
+# By solving the "No current event loop in thread" error:
+# - Restored a key product feature that was completely non-functional
+# - Eliminated wasted API costs on failed requests
+# - Improved user trust by delivering on promised capabilities
+# - Reduced support burden from user complaints
+# - Enabled scaling to handle multiple concurrent requests</code>
+            </div>
+        </div>
+    </div>
+
+    <div class="collapsible-section">
+        <div class="section-header" onclick="toggleSection('network-error')">
+            <h3 class="section-title">Error: Network response was not ok</h3>
+            <span class="section-icon">▼</span>
+        </div>
+        <div class="section-content" id="network-error">
+            <div class="section-inner">
+                <p>Problem: The Gemini API integration was failing with "Network response was not ok" error due to incorrect API usage.</p>
+                <code># INCORRECT APPROACH (causing the error)
+# This code was trying to use a Client class that doesn't exist in the installed version
+
+client = genai.Client(
+    api_key=os.environ.get("GEMINI_API_KEY"),
+)
+
+response = client.models.generate_content(
+    model=model,
+    contents=contents,
+    config=generate_content_config,
+)
+
+# CORRECT APPROACH (solution)
+# Configure the API globally and use GenerativeModel directly
+
+# Set up the API key globally
+genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
+
+# Create a GenerativeModel instance
+model = genai.GenerativeModel('gemini-1.5-flash')
+
+# Generate the response with a simpler interface
+response = model.generate_content(prompt)</code>
+            </div>
+        </div>
+    </div>
+
+    <div class="collapsible-section">
+        <div class="section-header" onclick="toggleSection('thinking-error')">
+            <h3 class="section-title">Error: Thinking is not enabled</h3>
+            <span class="section-icon">▼</span>
+        </div>
+        <div class="section-content" id="thinking-error">
+            <div class="section-inner">
+                <p>Problem: The image generation API was failing with "Thinking is not enabled for models/gemini-2.0-flash-exp-image-generation" error.</p>
+                <code># INCORRECT APPROACH (causing the error)
+# This code was trying to use thinking_config which is not supported by the image generation model
+
+generate_content_config = types.GenerateContentConfig(
+    thinking_config = types.ThinkingConfig(
+        thinking_budget=0,
+    ),
+    response_modalities=[
+        "image",
+        "text",
+    ],
+    response_mime_type="text/plain",
+)
+
+# CORRECT APPROACH (solution)
+# Remove the thinking_config parameter
+
+generate_content_config = types.GenerateContentConfig(
+    response_modalities=[
+        "image",
+        "text",
+    ],
+    response_mime_type="text/plain",
+)</code>
+            </div>
+        </div>
+    </div>
+
+    <div class="collapsible-section">
+        <div class="section-header" onclick="toggleSection('event-loop-error')">
+            <h3 class="section-title">Error: No current event loop in thread</h3>
+            <span class="section-icon">▼</span>
+        </div>
+        <div class="section-content" id="event-loop-error">
+            <div class="section-inner">
+                <p>Problem: The image generation feature was failing with "There is no current event loop in thread" error and returning text instead of images, causing business impact through poor user experience and wasted API resources.</p>
+                <code># BUSINESS IMPACT
+# 1. User frustration and potential service abandonment
+# 2. Wasted API calls and associated costs
+# 3. Increased support burden for troubleshooting
+# 4. Reduced trust in AI capabilities
+
+# INCORRECT APPROACH (causing the error)
+# This code was trying to use asyncio functionality in a threaded environment without proper setup
+
+@app.route('/api/generate-image', methods=['POST'])
+def generate_image():
+    try:
+        # Initialize the Google Genai client
+        client = google_genai.Client(
+            api_key=os.environ.get("GEMINI_API_KEY"),
+        )
+
+        # Generate the image - THIS FAILS with "No current event loop in thread"
+        response = client.models.generate_content(
+            model=model,
+            contents=contents,
+            config=generate_content_config,
+        )
+
+        # Process response...
+    except Exception as e:
+        print("Exception in generate_image:", e)
+        return jsonify({'error': str(e)}), 500
+
+# CORRECT APPROACH (solution)
+# Properly handle asyncio event loop in threaded environment
+
+@app.route('/api/generate-image', methods=['POST'])
+def generate_image():
+    try:
+        # Import asyncio for event loop handling
+        import asyncio
+
+        # Function to run in the event loop
+        async def generate_image_async():
+            # Initialize client and generate image...
+            return response
+
+        # Create a new event loop and run the async function
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        response = loop.run_until_complete(generate_image_async())
+        loop.close()
+
+        # Also improved prompt formatting:
+        # From: text=prompt
+        # To: text=f"Generate an image of: {prompt}"
+
+        # Process response...
+    except Exception as e:
+        print("Exception in generate_image:", e)
+        return jsonify({'error': str(e)}), 500</code>
+            </div>
+        </div>
+    </div>
+
+    <div class="collapsible-section">
+        <div class="section-header" onclick="toggleSection('two-sum')">
+            <h3 class="section-title">Two Sum Algorithm</h3>
+            <span class="section-icon">▼</span>
+        </div>
+        <div class="section-content" id="two-sum">
+            <div class="section-inner">
+                <p>Problem: Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.</p>
+                <code># Time Complexity: O(n)
+# Space Complexity: O(n)
+
+def twoSum(nums, target):
+    # Create a hash map to store values and their indices
+    hash_map = {}
+
+    # Iterate through the array
+    for i, num in enumerate(nums):
+        # Calculate the complement
+        complement = target - num
+
+        # If complement exists in hash map, return its index and current index
+        if complement in hash_map:
+            return [hash_map[complement], i]
+
+        # Otherwise, add current number and its index to hash map
+        hash_map[num] = i
+
+    # If no solution is found
+    return []</code>
+            </div>
+        </div>
+    </div>
+
+    <div class="collapsible-section">
+        <div class="section-header" onclick="toggleSection('max-subarray')">
+            <h3 class="section-title">Maximum Subarray (Kadane's Algorithm)</h3>
+            <span class="section-icon">▼</span>
+        </div>
+        <div class="section-content" id="max-subarray">
+            <div class="section-inner">
+                <p>Problem: Given an integer array nums, find the contiguous subarray with the largest sum and return its sum.</p>
+                <code># Time Complexity: O(n)
+# Space Complexity: O(1)
+
+def maxSubArray(nums):
+    # Initialize variables
+    current_sum = max_sum = nums[0]
+
+    # Iterate through the array starting from the second element
+    for num in nums[1:]:
+        # Either start a new subarray or continue the previous one
+        current_sum = max(num, current_sum + num)
+
+        # Update max_sum if current_sum is greater
+        max_sum = max(max_sum, current_sum)
+
+    return max_sum</code>
+            </div>
+        </div>
+    </div>
+
+    <div class="collapsible-section">
+        <div class="section-header" onclick="toggleSection('merge-sort')">
+            <h3 class="section-title">Merge Sort Algorithm</h3>
+            <span class="section-icon">▼</span>
+        </div>
+        <div class="section-content" id="merge-sort">
+            <div class="section-inner">
+                <p>Problem: Implement the merge sort algorithm to sort an array of integers in ascending order.</p>
+    <code># Time Complexity: O(n log n)
+# Space Complexity: O(n)
+
+def merge_sort(arr):
+    # Base case: if array has 0 or 1 element, it's already sorted
+    if len(arr) <= 1:
+        return arr
+
+    # Divide the array into two halves
+    mid = len(arr) // 2
+    left = arr[:mid]
+    right = arr[mid:]
+
+    # Recursively sort both halves
+    left = merge_sort(left)
+    right = merge_sort(right)
+
+    # Merge the sorted halves
+    return merge(left, right)
+
+def merge(left, right):
+    result = []
+    i = j = 0
+
+    # Compare elements from both arrays and add the smaller one to result
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+
+    # Add any remaining elements
+    result.extend(left[i:])
+    result.extend(right[j:])
+
+    return result</code>
+            </div>
+        </div>
+    </div>
+
+    <div class="collapsible-section">
+        <div class="section-header" onclick="toggleSection('binary-search')">
+            <h3 class="section-title">Binary Search Algorithm</h3>
+            <span class="section-icon">▼</span>
+        </div>
+        <div class="section-content" id="binary-search">
+            <div class="section-inner">
+                <p>Problem: Implement binary search to find a target value in a sorted array.</p>
+    <code># Time Complexity: O(log n)
+# Space Complexity: O(1)
+
+def binary_search(nums, target):
+    left, right = 0, len(nums) - 1
+
+    while left <= right:
+        # Calculate middle index
+        mid = left + (right - left) // 2
+
+        # Check if target is at the middle
+        if nums[mid] == target:
+            return mid
+
+        # If target is greater, ignore left half
+        elif nums[mid] < target:
+            left = mid + 1
+
+        # If target is smaller, ignore right half
+        else:
+            right = mid - 1
+
+    # Target not found
+    return -1</code>
+            </div>
+        </div>
+    </div>
+
+    <div class="collapsible-section">
+        <div class="section-header" onclick="toggleSection('palindrome')">
+            <h3 class="section-title">Longest Palindromic Substring</h3>
+            <span class="section-icon">▼</span>
+        </div>
+        <div class="section-content" id="palindrome">
+            <div class="section-inner">
+                <p>Problem: Given a string s, return the longest palindromic substring in s.</p>
+    <code># Time Complexity: O(n²)
+# Space Complexity: O(1)
+
+def longest_palindrome(s):
+    if not s:
+        return ""
+
+    start = 0  # Start index of the longest palindrome
+    max_len = 1  # Length of the longest palindrome
+
+    # Helper function to expand around center
+    def expand_around_center(left, right):
+        while left >= 0 and right < len(s) and s[left] == s[right]:
+            left -= 1
+            right += 1
+        return right - left - 1  # Length of palindrome
+
+    # Check each position as a potential center
+    for i in range(len(s)):
+        # Odd length palindrome (single character center)
+        len1 = expand_around_center(i, i)
+
+        # Even length palindrome (between two characters)
+        len2 = expand_around_center(i, i + 1)
+
+        # Get the maximum length from both cases
+        length = max(len1, len2)
+
+        # Update if we found a longer palindrome
+        if length > max_len:
+            max_len = length
+            start = i - (length - 1) // 2
+
+    return s[start:start + max_len]</code>
+            </div>
+        </div>
+    </div>
+
+    <h1>AI Search Platform</h1>
+    <h2>Powered by Google Gemini</h2>
+    <p>Multi-modal AI platform with text generation, image creation, and transparent thinking processes. Built with Google Gemini API integration and modern neumorphic UI design featuring soft shadows, inset elements, and dark theme aesthetics. Learn about <a href="https://ai.google.dev/gemini-api/docs/prompting-intro#examples" target="_blank" rel="noopener noreferrer">effective prompting techniques</a>.</p>
+    <div class="simple-search">
+        <textarea class="prompt-input" placeholder="Enter your question or prompt..." rows="3"></textarea>
+        <div class="button-group">
+            <button class="prompt-button">Generate Response</button>
+            <button class="thinking-button">AI Thinking Mode</button>
+        </div>
+        <div class="response-container" id="response"></div>
+        <div class="thinking-container" id="thinking" style="display: none;"></div>
+        <button class="tts-button" id="tts-button">Listen (Text to Speech)</button>
+        <audio class="audio-player" id="audio-player" controls></audio>
+    </div>
+
+    <h2>Implementation</h2>
+    <p>Python code for text generation</p>
+    <code># To run this code you need to install the following dependencies:
+# pip install google-generativeai
+
+import os
+import google.generativeai as genai
+
+# Configure the API
+genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
+
+# Create a model instance with the newer model
+model = genai.GenerativeModel('gemini-2.5-flash-preview-04-17')
+
+# Generate content
+response = model.generate_content("Your prompt here")
+
+# Print the response
+print(response.text)</code>
+
+    <h2>AI Thinking Mode</h2>
+    <p>Python code for text generation with thinking process. Implementation inspired by <a href="https://github.com/patrickloeber" target="_blank" rel="noopener noreferrer">Patrick Löber</a> from DeepMind Google.</p>
+    <code># AI Thinking Mode - Shows the AI's thought process
+# pip install google-genai
+
+from google import genai
+from google.genai import types
+
+# Initialize the client
+client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
+
+# Generate response with thinking configuration
+response = client.models.generate_content(
+    model="gemini-2.5-flash-preview-05-20",
+    contents="Create a 30 day study plan to learn Python",
+    config={
+        "thinking_config": {"include_thoughts": True}
+    }
+)
+
+# Print response:
+print(response.text)
+
+# Print the thought summary:
+for part in response.candidates[0].content.parts:
+    if part.thought:
+        print("Thought summary:")
+        print(part.text)</code>
+
+    <h2>Text-to-Speech Synthesis</h2>
+    <p>Convert AI responses to natural-sounding speech</p>
+    <code># Text-to-Speech implementation using Google's gTTS library
+# pip install gtts
+
+from gtts import gTTS
+import os
+import uuid
+import tempfile
+
+# Create a directory for temporary audio files
+TEMP_AUDIO_DIR = os.path.join(tempfile.gettempdir(), 'gemini_tts')
+os.makedirs(TEMP_AUDIO_DIR, exist_ok=True)
+
+# Convert text to speech
+def text_to_speech(text):
+    # Generate a unique filename
+    filename = f"{uuid.uuid4()}.mp3"
+    filepath = os.path.join(TEMP_AUDIO_DIR, filename)
+
+    # Convert text to speech using Google's TTS engine
+    tts = gTTS(text=text, lang='en', slow=False)
+    tts.save(filepath)
+
+    # Return the file path to be served to the client
+    return filepath</code>
+
+    <h1>AI Image Generation</h1>
+    <h2>Create Images with AI</h2>
+    <p>Generate images from text descriptions using Google Gemini's image generation capabilities. Enter detailed prompts for better results. View our <a href="https://github.com/bniladridas/gemini-ai-search" target="_blank" rel="noopener noreferrer">source code</a> for implementation details.</p>
+    <div class="image-generation">
+        <textarea class="image-prompt-input" placeholder="Describe the image you want to generate..." rows="3"></textarea>
+        <button class="image-prompt-button">Generate Image</button>
+        <div class="image-container">
+            <img id="generated-image" style="display: none;">
+            <div id="image-message" style="display: none;"></div>
+        </div>
+    </div>
+
+    <h2>Implementation</h2>
+    <p>Python code for image generation</p>
+    <code># Image Generation implementation using Google's Gemini API
+# pip install google-genai
+
+import os
+import uuid
+import tempfile
+import mimetypes
+from google import genai
+from google.genai import types
+
+# Create a directory for temporary image files
+TEMP_IMAGE_DIR = os.path.join(tempfile.gettempdir(), 'gemini_images')
+os.makedirs(TEMP_IMAGE_DIR, exist_ok=True)
+
+# Initialize the client
+client = genai.Client(
+    api_key=os.environ.get("GEMINI_API_KEY"),
+)
+
+# Generate an image from text
+def generate_image(prompt):
+    # Set up the model and content
+    model = "gemini-2.0-flash-exp-image-generation"
+    contents = [
+        types.Content(
+            role="user",
+            parts=[
+                types.Part.from_text(text=prompt),
+            ],
+        ),
+    ]
+
+    # Configure the generation parameters
+    config = types.GenerateContentConfig(
+        response_modalities=["image", "text"],
+    )
+
+    # Generate the image
+    response = client.models.generate_content(
+        model=model,
+        contents=contents,
+        config=config,
+    )
+
+    # Return the generated image
+    return response</code>
+
+    <div class="collapsible-section">
+        <div class="section-header" onclick="toggleSection('brand-profile')">
+            <h3 class="section-title">About the Developer</h3>
+            <span class="section-icon">▼</span>
+        </div>
+        <div class="section-content" id="brand-profile">
+            <div class="section-inner">
+                <div class="profile-container">
+                    <img src="https://avatars.githubusercontent.com/u/125604915?v=4" alt="Niladri Das" class="profile-avatar">
+                </div>
+
+                <h4 style="color: #64d2ff; margin-bottom: 1rem; font-weight: 600;">Technical Focus</h4>
+                <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 1.5rem;">
+                    Building AI-powered applications with clean, professional interfaces. Specializing in Google Gemini API integration and modern web development.
+                </p>
+
+                <h4 style="color: #bf5af2; margin-bottom: 1rem; font-weight: 600;">Skills</h4>
+                <ul style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 1.5rem;">
+                    <li><strong>Programming:</strong> Python, JavaScript, C++</li>
+                    <li><strong>AI Integration:</strong> Google Gemini API, Together AI, Machine Learning</li>
+                    <li><strong>Web Development:</strong> Flask, React, HTML/CSS, Responsive Design</li>
+                    <li><strong>Tools & Technologies:</strong> Git, API Development, Database Design</li>
+                </ul>
+
+                <h4 style="color: #32d74b; margin-bottom: 1rem; font-weight: 600;">Projects</h4>
+                <div style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 1.5rem;">
+                    <p><strong>Gemini AI Search Platform</strong> - Multi-modal AI application with neumorphic design</p>
+                    <ul style="margin-top: 0.5rem;">
+                        <li>Google Gemini API integration for text and image generation</li>
+                        <li>AI thinking mode with transparent reasoning process</li>
+                        <li>Text-to-speech functionality using gTTS</li>
+                        <li>Modern neumorphic UI with dark theme and soft shadows</li>
+                        <li>Algorithm problem solver with code examples</li>
+                    </ul>
+                </div>
+
+                <h4 style="color: #64d2ff; margin-bottom: 1rem; font-weight: 600;">Contact</h4>
+                <p style="color: var(--text-secondary);">
+                    <strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/bniladridas/" target="_blank" rel="noopener noreferrer">Niladri Das</a><br>
+                    <strong>GitHub:</strong> <a href="https://github.com/bniladridas" target="_blank" rel="noopener noreferrer">@bniladridas</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <h1 id="privacy-legal">Privacy & Legal</h1>
+    <h2>Privacy Policy</h2>
+    <p>Last updated: April 23, 2025</p>
+    <code>This Privacy Policy describes how we collect, use, and handle your information when you use our services. By using this website, you agree to the collection and use of information in accordance with this policy.
+
+Information Collection and Use:
+- We collect information you provide directly to us, such as prompts entered into the search or image generation features.
+- We use this information to provide, maintain, and improve our services.
+- Your prompts may be temporarily stored to process your requests but are not permanently stored or used for training purposes.
+
+Data Storage and Caching:
+- Generated images and audio files are stored temporarily in a server-side temporary directory and are not permanently retained. This is implemented in our code:
+  * For audio: `TEMP_AUDIO_DIR = os.path.join(tempfile.gettempdir(), 'gemini_tts')`
+  * For images: `TEMP_IMAGE_DIR = os.path.join(tempfile.gettempdir(), 'gemini_images')`
+- Your browser may cache content, including generated images and audio files, to improve performance.
+- We use browser-based URL blob objects to display generated images and play audio files.
+- The application uses the Fetch API for network requests, which may implement caching: `fetch('/api/generate-image', {...})` and `fetch('/api/text-to-speech', {...})`
+- We do not sell or share your data with third parties except as necessary to provide our services.
+
+Third-Party Services and Technologies:
+- This website uses Google's Generative AI services. Your interactions may be subject to Google's privacy policies.
+- We use Flask, a Python web framework that may set session cookies for security purposes.
+- We use Flask-CORS (Cross-Origin Resource Sharing) to enable secure API requests from the browser, as shown in our code: `app = Flask(__name__); CORS(app)  # Enable CORS for all routes`
+- We use the gTTS (Google Text-to-Speech) service to convert text to speech: `tts = gTTS(text=text, lang='en', slow=False)`
+- We use the Google Generative AI API for text and image generation: `model = genai.GenerativeModel('gemini-2.5-flash-preview-04-17')`
+- For more information about Google's privacy practices, visit: https://ai.google.dev/privacy
+
+Cookies and Local Storage:
+- This website may use browser storage mechanisms and cookies for technical purposes.
+- The Flask framework we use may set session cookies for security purposes.
+- When you use our text-to-speech or image generation features, your browser may cache these files locally.
+- We use URL blob objects to display generated images and play audio files, which are temporarily stored in your browser's memory. This is evident in our code:
+  * For audio: `const audioUrl = URL.createObjectURL(blob); audioPlayer.src = audioUrl;`
+  * For images: `const imageUrl = URL.createObjectURL(blob); generatedImage.src = imageUrl;`
+- Our JavaScript code uses the Fetch API which may utilize browser caching mechanisms.
+- We do not use cookies for tracking or advertising purposes.
+
+Changes to This Privacy Policy:
+- We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.
+
+Contact Us:
+- If you have any questions about this Privacy Policy, please contact us.</code>
+
+    <h2>Terms of Service</h2>
+    <p>Effective date: April 23, 2025</p>
+    <code>By accessing or using this website, you agree to be bound by these Terms of Service. If you disagree with any part of the terms, you may not access the service.
+
+Use of Service:
+- This service is provided for informational and educational purposes only.
+- You may not use this service for any illegal or unauthorized purpose.
+- You agree not to modify, adapt, or hack the service or modify another website to falsely imply that it is associated with this service.
+
+Content and Conduct:
+- You are responsible for all content you submit through our service.
+- You agree not to use the service to generate or distribute content that is illegal, harmful, threatening, abusive, harassing, defamatory, or otherwise objectionable.
+- We reserve the right to remove any content that violates these terms or is otherwise objectionable.
+
+Intellectual Property:
+- The service and its original content, features, and functionality are owned by Niladri Das and are protected by international copyright, trademark, patent, trade secret, and other intellectual property laws.
+
+Limitation of Liability:
+- In no event shall we be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses.
+
+Governing Law:
+- These Terms shall be governed by the laws of the jurisdiction in which the service provider is established, without regard to its conflict of law provisions.
+
+Changes to Terms:
+- We reserve the right to modify or replace these Terms at any time. It is your responsibility to review these Terms periodically for changes.</code>
+
+    <h2>Copyright Notice</h2>
+    <p>Legal information</p>
+    <code>© 2025 Niladri Das. All rights reserved. Using this template or any part of this design is strictly prohibited without direct permission from the author.</code>
+
+    <script>
+        // Initialize marked.js for markdown rendering
+        marked.setOptions({
+            breaks: true,
+            gfm: true
+        });
+
+        // Function to handle prompt submission
+        function submitPrompt() {
+            const promptInput = document.querySelector('.prompt-input').value;
+            const responseContainer = document.getElementById('response');
+            const thinkingContainer = document.getElementById('thinking');
+            const ttsButton = document.getElementById('tts-button');
+            const audioPlayer = document.getElementById('audio-player');
+
+            // Hide TTS button, audio player, and thinking container when submitting a new prompt
+            ttsButton.style.display = 'none';
+            audioPlayer.style.display = 'none';
+            thinkingContainer.style.display = 'none';
+            audioPlayer.pause();
+            audioPlayer.src = '';
+
+            if (!promptInput.trim()) {
+                responseContainer.innerHTML = '<em>Please enter a prompt</em>';
+                responseContainer.style.display = 'block';
+                return;
+            }
+
+            // Show loading state
+            responseContainer.innerHTML = '<em>Thinking...</em>';
+            responseContainer.style.display = 'block';
+
+            // Make an actual API call to the Flask backend
+            fetch('/api/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ prompt: promptInput })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Render the response as markdown
+                responseContainer.innerHTML = marked.parse(data.response);
+
+                // Show the TTS button if we have a response
+                if (data.response && data.response.trim()) {
+                    ttsButton.style.display = 'block';
+                    // Store the response text as a data attribute on the button
+                    ttsButton.setAttribute('data-text', data.response);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                responseContainer.innerHTML = `<em>Error: ${error.message}</em>`;
+            });
+        }
+
+        // Function to handle prompt submission with thinking
+        function submitPromptWithThinking() {
+            const promptInput = document.querySelector('.prompt-input').value;
+            const responseContainer = document.getElementById('response');
+            const thinkingContainer = document.getElementById('thinking');
+            const ttsButton = document.getElementById('tts-button');
+            const audioPlayer = document.getElementById('audio-player');
+
+            // Hide TTS button and audio player when submitting a new prompt
+            ttsButton.style.display = 'none';
+            audioPlayer.style.display = 'none';
+            audioPlayer.pause();
+            audioPlayer.src = '';
+
+            if (!promptInput.trim()) {
+                responseContainer.innerHTML = '<em>Please enter a prompt</em>';
+                responseContainer.style.display = 'block';
+                thinkingContainer.style.display = 'none';
+                return;
+            }
+
+            // Show loading state
+            responseContainer.innerHTML = '<em>Thinking...</em>';
+            responseContainer.style.display = 'block';
+            thinkingContainer.innerHTML = '<h4 style="color: #bf5af2; margin-bottom: 0.5rem; font-weight: 600;">AI Thought Process</h4><em>Processing thoughts...</em>';
+            thinkingContainer.style.display = 'block';
+
+            // Make an API call to the thinking endpoint
+            fetch('/api/generate-with-thinking', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ prompt: promptInput })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Render the main response as markdown
+                responseContainer.innerHTML = marked.parse(data.response);
+
+                // Render the thinking summary
+                if (data.thinking_summary && data.thinking_summary.length > 0) {
+                    let thinkingHtml = '<h4 style="color: #bf5af2; margin-bottom: 1rem; font-weight: 600;">AI Thought Process</h4>';
+                    data.thinking_summary.forEach((thought, index) => {
+                        // Format the thought with proper line breaks and styling
+                        const formattedThought = thought
+                            .replace(/\*\*(.*?)\*\*/g, '<strong style="color: #e5e5e7;">$1</strong>')
+                            .replace(/\n/g, '<br>')
+                            .replace(/\. /g, '.<br><br>')
+                            .replace(/\? /g, '?<br><br>')
+                            .replace(/! /g, '!<br><br>');
+
+                        thinkingHtml += `
+                            <div style="margin-bottom: 1.5rem; padding: 1rem; background: var(--background-elevated); border-radius: var(--border-radius-small); box-shadow: var(--shadow-inset);">
+                                <h5 style="color: #64d2ff; margin-bottom: 0.75rem; font-weight: 600; font-size: 14px;">Thought ${index + 1}:</h5>
+                                <div style="color: var(--text-secondary); line-height: 1.6; font-size: 14px;">${formattedThought}</div>
+                            </div>
+                        `;
+                    });
+                    thinkingContainer.innerHTML = thinkingHtml;
+                } else {
+                    thinkingContainer.innerHTML = '<h4 style="color: #bf5af2; margin-bottom: 0.5rem; font-weight: 600;">AI Thought Process</h4><p>No thinking summary available for this response.</p>';
+                }
+
+                // Show the TTS button if we have a response
+                if (data.response && data.response.trim()) {
+                    ttsButton.style.display = 'block';
+                    // Store the response text as a data attribute on the button
+                    ttsButton.setAttribute('data-text', data.response);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                responseContainer.innerHTML = `<em>Error: ${error.message}</em>`;
+                thinkingContainer.innerHTML = '<h4 style="color: #bf5af2; margin-bottom: 0.5rem; font-weight: 600;">AI Thought Process</h4><em>Error retrieving thinking process</em>';
+            });
+        }
+
+        // Function to handle text-to-speech
+        function textToSpeech() {
+            const ttsButton = document.getElementById('tts-button');
+            const audioPlayer = document.getElementById('audio-player');
+            const text = ttsButton.getAttribute('data-text');
+
+            if (!text) {
+                return;
+            }
+
+            // Disable the button while processing
+            ttsButton.disabled = true;
+            ttsButton.textContent = 'Processing...';
+
+            // Make an API call to the text-to-speech endpoint
+            fetch('/api/text-to-speech', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ text: text })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.blob();
+            })
+            .then(blob => {
+                // Create a URL for the audio blob
+                const audioUrl = URL.createObjectURL(blob);
+
+                // Set the audio source and display the player
+                audioPlayer.src = audioUrl;
+                audioPlayer.style.display = 'block';
+
+                // Play the audio
+                audioPlayer.play();
+
+                // Re-enable the button
+                ttsButton.disabled = false;
+                ttsButton.textContent = 'Listen (Text to Speech)';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert(`Error generating speech: ${error.message}`);
+
+                // Re-enable the button
+                ttsButton.disabled = false;
+                ttsButton.textContent = 'Listen (Text to Speech)';
+            });
+        }
+
+        // Function to handle image generation
+        function generateImage() {
+            const promptInput = document.querySelector('.image-prompt-input').value;
+            const generatedImage = document.getElementById('generated-image');
+            const imageMessage = document.getElementById('image-message');
+            const imageButton = document.querySelector('.image-prompt-button');
+
+            // Hide previous image and message
+            generatedImage.style.display = 'none';
+            imageMessage.style.display = 'none';
+
+            if (!promptInput.trim()) {
+                imageMessage.textContent = 'Please enter a prompt';
+                imageMessage.style.display = 'block';
+                return;
+            }
+
+            // Disable the button and show loading state
+            imageButton.disabled = true;
+            imageButton.textContent = 'Generating...';
+            imageMessage.textContent = 'Generating your image. This may take a minute...';
+            imageMessage.style.display = 'block';
+
+            // Make an API call to the image generation endpoint
+            fetch('/api/generate-image', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ prompt: promptInput })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(data => {
+                        throw new Error(data.error || 'Failed to generate image');
+                    });
+                }
+
+                // Check if the response is JSON (error message) or blob (image)
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    return response.json().then(data => {
+                        throw new Error(data.message || data.error || 'Failed to generate image');
+                    });
+                }
+
+                return response.blob();
+            })
+            .then(blob => {
+                // Create a URL for the image blob
+                const imageUrl = URL.createObjectURL(blob);
+
+                // Set the image source and display it
+                generatedImage.src = imageUrl;
+                generatedImage.style.display = 'block';
+                imageMessage.style.display = 'none';
+
+                // Re-enable the button
+                imageButton.disabled = false;
+                imageButton.textContent = 'Generate Image';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                imageMessage.textContent = `Error: ${error.message}`;
+                imageMessage.style.display = 'block';
+
+                // Re-enable the button
+                imageButton.disabled = false;
+                imageButton.textContent = 'Generate Image';
+            });
+        }
+
+        // Handle button clicks
+        document.querySelector('.prompt-button').addEventListener('click', submitPrompt);
+        document.querySelector('.thinking-button').addEventListener('click', submitPromptWithThinking);
+        document.getElementById('tts-button').addEventListener('click', textToSpeech);
+        document.querySelector('.image-prompt-button').addEventListener('click', generateImage);
+
+        // Handle Enter key press in the input fields
+        document.querySelector('.prompt-input').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault(); // Prevent default to avoid newline in textarea
+                submitPrompt();
+            }
+        });
+
+        document.querySelector('.image-prompt-input').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault(); // Prevent default to avoid newline in textarea
+                generateImage();
+            }
+        });
+
+        // Function to toggle collapsible sections
+        function toggleSection(sectionId) {
+            const content = document.getElementById(sectionId);
+            const header = content.previousElementSibling;
+            const icon = header.querySelector('.section-icon');
+
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+                header.classList.remove('active');
+                icon.textContent = '▼';
+            } else {
+                content.classList.add('active');
+                header.classList.add('active');
+                icon.textContent = '▲';
+            }
+        }
+
+
+    </script>
+
+    <!-- Cookie Notification Banner -->
+    <div class="cookie-notification" id="cookie-notification">
+        <div class="cookie-text">
+            This website uses cookies and local storage to enhance your experience. By continuing to use this site, you agree to our use of cookies and data storage as described in our <a href="#privacy-legal">Privacy Policy</a>.
+        </div>
+        <button class="cookie-button" id="accept-cookies">Accept</button>
+    </div>
+
+    <script>
+        // Cookie notification functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const cookieNotification = document.getElementById('cookie-notification');
+            const acceptCookiesButton = document.getElementById('accept-cookies');
+
+            // Check if user has already accepted cookies
+            const cookiesAccepted = localStorage.getItem('cookiesAccepted');
+
+            if (!cookiesAccepted) {
+                // Show the notification with a slight delay for better UX
+                setTimeout(function() {
+                    cookieNotification.classList.add('show');
+                }, 1000);
+            }
+
+            // Handle accept button click
+            acceptCookiesButton.addEventListener('click', function() {
+                localStorage.setItem('cookiesAccepted', 'true');
+                cookieNotification.classList.remove('show');
+            });
+        });
+    </script>
+</body>
+</html>
