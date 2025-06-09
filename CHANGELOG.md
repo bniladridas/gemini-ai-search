@@ -5,7 +5,15 @@ Follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and [Semantic V
 
 ---
 
-## \[1.0.3] – 2025-06-02
+## [1.0.4] – 2025-06-11
+
+### Fixed
+
+* Resolved URL analysis issue in production
+
+---
+
+## [1.0.3] – 2025-06-02
 
 ### Highlights
 
@@ -28,7 +36,6 @@ Follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and [Semantic V
 
 * Optimized backend performance and API responses
 
----
 
 ## \[1.0.2] – 2025-05-14
 
