@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40">
-  <!-- ND initials in Google colors -->
-  <text x="10" y="30" font-family="Arial, sans-serif" font-weight="bold" font-size="28">
-    <tspan fill="#4285F4">N</tspan><tspan fill="#EA4335">D</tspan>
-  </text>
-  <!-- Code symbol -->
-  <path d="M80,10 L70,30 M90,10 L100,30" stroke="#34A853" stroke-width="3" stroke-linecap="round" />
-  <path d="M65,20 L105,20" stroke="#FBBC05" stroke-width="3" stroke-linecap="round" />
-</svg>
